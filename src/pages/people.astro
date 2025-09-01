@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// 手动定义团队成员数据，按分类组织
+const teamMembers = {
+  director: [
+    {
+      name: "Dr. Sarah Chen",
+      title: "Lab Director & Professor",
+      email: "sarah.chen@umep.edu",
+      researchInterest: "Urban meteorology, environmental physics, and sustainable city development through innovative modeling and sensing technologies."
+    }
+  ],
+  phdStudents: [
+    {
+      name: "Michael Zhang",
+      title: "PhD Student (3rd Year)",
+      email: "michael.zhang@student.umep.edu",
+      researchInterest: "LLM-driven agent-based mobility simulation and urban transportation modeling."
+    },
+    {
+      name: "Emily Rodriguez",
+      title: "PhD Student (2nd Year)", 
+      email: "emily.rodriguez@student.umep.edu",
+      researchInterest: "Urban environment perception modeling using computer vision and remote sensing data."
+    }
+  ],
+  mphilStudents: [
+    {
+      name: "David Kim",
+      title: "MPhil Student (1st Year)",
+      email: "david.kim@student.umep.edu", 
+      researchInterest: "Environmental exposure assessment and health impact analysis in urban contexts."
+    },
+    {
+      name: "Lisa Wang",
+      title: "MPhil Student (2nd Year)",
+      email: "lisa.wang@student.umep.edu",
+      researchInterest: "Integration of LLM agents with human cognitive mechanisms for behavioral modeling."
+    }
+  ],
+  alumni: [
+    {
+      name: "Dr. John Martinez",
+      title: "Former PhD Student (2023)",
+      email: "john.martinez@tech-company.com",
+      researchInterest: "Now Senior Data Scientist at Urban Tech Solutions, specializing in smart city analytics."
+    },
+    {
+      name: "Alice Thompson",
+      title: "Former MPhil Student (2022)",
+      email: "alice.thompson@consultant.com", 
+      researchInterest: "Currently Environmental Consultant at Green City Planning, focusing on sustainable urban development."
+    }
+  ]
+};
+---
+
+<Layout title="Team Members">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-serif font-bold text-center mb-4 text-primary">Our Team</h1>
+        <p class="text-center text-gray-600 mb-12">Meet the talented researchers of our lab.</p>
+
+        <!-- Lab Director -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-serif font-bold mb-6 text-primary border-b-2 border-primary/20 pb-2">Lab Director</h2>
+            <div class="space-y-6">
+                {teamMembers.director.map(member => (
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="text-xl font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
+                                <p class="text-primary font-medium mb-2">{member.title}</p>
+                                <p class="text-gray-600 mb-3 leading-relaxed">{member.researchInterest}</p>
+                                <a href={`mailto:${member.email}`} class="text-sm text-primary hover:text-blue-800 transition-colors">
+                                    {member.email}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- PhD Students -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-serif font-bold mb-6 text-primary border-b-2 border-primary/20 pb-2">PhD Students</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {teamMembers.phdStudents.map(member => (
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="text-lg font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
+                                <p class="text-blue-600 font-medium mb-2 text-sm">{member.title}</p>
+                                <p class="text-gray-600 mb-3 leading-relaxed text-sm">{member.researchInterest}</p>
+                                <a href={`mailto:${member.email}`} class="text-xs text-primary hover:text-blue-800 transition-colors">
+                                    {member.email}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- MPhil Students -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-serif font-bold mb-6 text-primary border-b-2 border-primary/20 pb-2">MPhil Students</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {teamMembers.mphilStudents.map(member => (
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="text-lg font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
+                                <p class="text-green-600 font-medium mb-2 text-sm">{member.title}</p>
+                                <p class="text-gray-600 mb-3 leading-relaxed text-sm">{member.researchInterest}</p>
+                                <a href={`mailto:${member.email}`} class="text-xs text-primary hover:text-blue-800 transition-colors">
+                                    {member.email}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <!-- Alumni -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-serif font-bold mb-6 text-primary border-b-2 border-primary/20 pb-2">Alumni</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {teamMembers.alumni.map(member => (
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="text-lg font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
+                                <p class="text-purple-600 font-medium mb-2 text-sm">{member.title}</p>
+                                <p class="text-gray-600 mb-3 leading-relaxed text-sm">{member.researchInterest}</p>
+                                <a href={`mailto:${member.email}`} class="text-xs text-primary hover:text-blue-800 transition-colors">
+                                    {member.email}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    </div>
+</Layout>

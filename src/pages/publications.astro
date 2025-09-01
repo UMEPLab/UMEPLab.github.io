@@ -1,0 +1,189 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PublicationItem from '../components/PublicationItem.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有出版物
+const allPublications = await getCollection('publications');
+
+// 按年份和类型对出版物进行分组
+const pubsByYear = allPublications
+  .sort((a, b) => b.data.year - a.data.year) // 按年份降序排序
+  .reduce((acc, pub) => {
+    const year = pub.data.year;
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(pub);
+    return acc;
+  }, {} as Record<number, any[]>);
+
+const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
+
+// 统计信息
+const totalPubs = allPublications.length;
+const journalPubs = allPublications.filter(pub => pub.data.type === 'journal').length;
+const conferencePubs = allPublications.filter(pub => pub.data.type === 'conference').length;
+const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().getFullYear() - 2).length;
+---
+
+<Layout title="Publications - UMEP Lab">
+    <div class="max-w-6xl mx-auto">
+        <!-- Page Header -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Publications</h1>
+            <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+                Our publications include peer-reviewed journal articles, conference papers, and collaborative works.
+            </p>
+            
+            <!-- Statistics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{totalPubs}</div>
+                    <div class="text-sm text-gray-600">Total Publications</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{journalPubs}</div>
+                    <div class="text-sm text-gray-600">Journal Articles</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{conferencePubs}</div>
+                    <div class="text-sm text-gray-600">Conference Papers</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{recentPubs}</div>
+                    <div class="text-sm text-gray-600">Recent (2+ years)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Options -->
+        <section class="mb-8">
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button class="filter-btn active" data-filter="all">
+                    All Publications
+                </button>
+                <button class="filter-btn" data-filter="journal">
+                    Journal Articles
+                </button>
+                <button class="filter-btn" data-filter="conference">
+                    Conference Papers
+                </button>
+                <button class="filter-btn" data-filter="preprint">
+                    Preprints
+                </button>
+            </div>
+        </section>
+
+        <!-- Publications by Year -->
+        <section>
+            {years.map(year => (
+                <div class="year-section mb-12" data-year={year}>
+                    <div class="flex items-center mb-6">
+                        <h2 class="text-3xl font-serif font-semibold text-primary mr-4">{year}</h2>
+                        <div class="flex-1 h-px bg-gradient-to-r from-primary to-transparent"></div>
+                        <span class="text-sm text-gray-500 ml-4">
+                            {pubsByYear[year].length} publication{pubsByYear[year].length !== 1 ? 's' : ''}
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        {pubsByYear[year].map(pub => (
+                            <div class="publication-item" data-type={pub.data.type}>
+                                <PublicationItem
+                                    title={pub.data.title}
+                                    authors={pub.data.authors}
+                                    journal={pub.data.journal}
+                                    year={pub.data.year}
+                                    volume={pub.data.volume}
+                                    pages={pub.data.pages}
+                                    type={pub.data.type}
+                                    links={{
+                                        doi: pub.data.doi,
+                                        code: pub.data.code,
+                                        projectPage: pub.data.projectPage
+                                    }}
+                                    abstract={pub.data.abstract}
+                                    keywords={pub.data.keywords}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+        </section>
+
+        <!-- Empty State -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No publications found</h3>
+            <p class="text-gray-500">Try selecting a different filter or check back later.</p>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .filter-btn {
+        @apply px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors font-medium;
+    }
+    
+    .filter-btn.active {
+        @apply bg-primary text-white border-primary hover:bg-blue-800;
+    }
+</style>
+
+<script>
+    // Filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const publicationItems = document.querySelectorAll('.publication-item');
+        const yearSections = document.querySelectorAll('.year-section');
+        const noResults = document.getElementById('no-results');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function(this: HTMLButtonElement) {
+                const filter = this.getAttribute('data-filter');
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter publications
+                let visibleCount = 0;
+                
+                publicationItems.forEach(item => {
+                    const type = item.getAttribute('data-type');
+                    const htmlItem = item as HTMLElement;
+                    if (filter === 'all' || type === filter) {
+                        htmlItem.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        htmlItem.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide year sections based on visible publications
+                yearSections.forEach(section => {
+                    const visiblePubs = section.querySelectorAll('.publication-item[style="display: block;"], .publication-item:not([style*="display: none"])');
+                    const htmlSection = section as HTMLElement;
+                    if (filter === 'all' || visiblePubs.length > 0) {
+                        htmlSection.style.display = 'block';
+                    } else {
+                        htmlSection.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    noResults?.classList.remove('hidden');
+                } else {
+                    noResults?.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>

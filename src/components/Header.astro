@@ -1,0 +1,131 @@
+---
+const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/people", label: "People" },
+    { href: "/research", label: "Research" },
+    { href: "/publications", label: "Publications" },
+    { href: "/openings", label: "Openings" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="glass-card sticky top-0 z-50 border-b border-white/10">
+    <nav class="container-custom py-4 flex justify-between items-center">
+        <a href="/" class="group flex items-center space-x-3">
+            <img 
+                src="/favicon.jpeg" 
+                alt="UMEP Lab Logo" 
+                class="w-10 h-10 object-cover rounded-xl shadow-lg group-hover:shadow-glow transition-all duration-300 group-hover:scale-110"
+            />
+            <span class="text-2xl font-serif font-bold text-gray-800 group-hover:scale-105 transition-transform duration-300 group-hover:text-gray-900">
+                UMEP Lab
+            </span>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <ul class="hidden lg:flex items-center space-x-1">
+            {navLinks.map(link => (
+                <li>
+                    <a 
+                        href={link.href} 
+                        class={`relative px-4 py-2 rounded-lg font-medium transition-all duration-300 group ${
+                            currentPath === link.href 
+                                ? 'text-primary-700 bg-primary-50' 
+                                : 'text-dark-600 hover:text-primary-600 hover:bg-white/50'
+                        }`}
+                    >
+                        <span class="relative z-10">{link.label}</span>
+                        {currentPath === link.href && (
+                            <div class="absolute inset-0 bg-gradient-to-r from-primary-100 to-accent-100 rounded-lg"></div>
+                        )}
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-accent-500/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </a>
+                </li>
+            ))}
+        </ul>
+        
+        <!-- Mobile Menu Button -->
+        <button 
+            id="mobile-menu-button" 
+            class="lg:hidden relative w-10 h-10 flex flex-col justify-center items-center space-y-1 rounded-lg bg-white/50 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-glow transition-all duration-300"
+            aria-label="Toggle mobile menu"
+        >
+            <span class="w-5 h-0.5 bg-dark-600 transition-all duration-300 origin-center"></span>
+            <span class="w-5 h-0.5 bg-dark-600 transition-all duration-300 origin-center"></span>
+            <span class="w-5 h-0.5 bg-dark-600 transition-all duration-300 origin-center"></span>
+        </button>
+    </nav>
+    
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="lg:hidden hidden border-t border-white/10">
+        <div class="container-custom py-4">
+            <ul class="space-y-2">
+                {navLinks.map(link => (
+                    <li>
+                        <a 
+                            href={link.href} 
+                            class={`block px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                                currentPath === link.href 
+                                    ? 'text-primary-700 bg-gradient-to-r from-primary-50 to-accent-50 shadow-inner-glow' 
+                                    : 'text-dark-600 hover:text-primary-600 hover:bg-white/50'
+                            }`}
+                        >
+                            {link.label}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    </div>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLines = mobileMenuButton?.querySelectorAll('span');
+        
+        let isMenuOpen = false;
+        
+        mobileMenuButton?.addEventListener('click', function() {
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                mobileMenu?.classList.remove('hidden');
+                mobileMenu?.classList.add('animate-slide-up');
+                
+                // 动画到 X
+                if (menuLines) {
+                    menuLines[0].style.transform = 'rotate(45deg) translate(3px, 3px)';
+                    menuLines[1].style.opacity = '0';
+                    menuLines[2].style.transform = 'rotate(-45deg) translate(3px, -3px)';
+                }
+            } else {
+                mobileMenu?.classList.add('hidden');
+                mobileMenu?.classList.remove('animate-slide-up');
+                
+                // 动画回汉堡菜单
+                if (menuLines) {
+                    menuLines[0].style.transform = 'none';
+                    menuLines[1].style.opacity = '1';
+                    menuLines[2].style.transform = 'none';
+                }
+            }
+        });
+        
+        // 点击链接时关闭移动菜单
+        const mobileLinks = mobileMenu?.querySelectorAll('a');
+        mobileLinks?.forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu?.classList.add('hidden');
+                if (menuLines) {
+                    menuLines[0].style.transform = 'none';
+                    menuLines[1].style.opacity = '1';
+                    menuLines[2].style.transform = 'none';
+                }
+            });
+        });
+    });
+</script>

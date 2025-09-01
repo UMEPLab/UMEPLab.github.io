@@ -1,0 +1,175 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allNews = await getCollection('news');
+  return allNews.map(news => ({
+    params: { slug: news.slug },
+    props: { news },
+  }));
+}
+
+const { news } = Astro.props;
+const { Content } = await news.render();
+---
+
+<Layout title={`${news.data.title} - UMEP Lab`}>
+    <div class="max-w-4xl mx-auto">
+        <!-- Back Navigation -->
+        <nav class="mb-8">
+            <a 
+                href="/news" 
+                class="inline-flex items-center gap-2 text-primary hover:text-blue-800 font-medium transition-colors"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to News
+            </a>
+        </nav>
+
+        <!-- Article Header -->
+        <header class="mb-8">
+            {news.data.image && (
+                <div class="aspect-video mb-6 rounded-lg overflow-hidden">
+                    <img 
+                        src={news.data.image} 
+                        alt={news.data.title}
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            )}
+            
+            <div class="flex items-center gap-4 mb-4">
+                <span class="inline-block px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">
+                    {news.data.category}
+                </span>
+                <time class="text-gray-500">
+                    {new Date(news.data.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}
+                </time>
+                {news.data.author && (
+                    <span class="text-gray-500">
+                        by {news.data.author}
+                    </span>
+                )}
+            </div>
+            
+            <h1 class="text-4xl font-serif font-bold mb-4 text-gray-900 leading-tight">
+                {news.data.title}
+            </h1>
+            
+            {news.data.excerpt && (
+                <p class="text-xl text-gray-600 leading-relaxed">
+                    {news.data.excerpt}
+                </p>
+            )}
+        </header>
+
+        <!-- Article Content -->
+        <article class="prose prose-lg max-w-none">
+            <Content />
+        </article>
+
+        <!-- Article Footer -->
+        <footer class="mt-12 pt-8 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                    Published on {new Date(news.data.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })}
+                    {news.data.author && (
+                        <span> by {news.data.author}</span>
+                    )}
+                </div>
+                
+                <!-- Share buttons could be added here -->
+                <div class="flex items-center gap-4">
+                    <a 
+                        href="/news" 
+                        class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-800 transition-colors font-medium"
+                    >
+                        More News
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Related News Section -->
+        <section class="mt-16">
+            <h2 class="text-2xl font-serif font-semibold text-primary mb-6">Related News</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- This would need additional logic to show related news -->
+                <!-- For now, we'll add a placeholder -->
+                <div class="text-center py-8 text-gray-500">
+                    <p>Related news items will be displayed here.</p>
+                    <a href="/news" class="text-primary hover:underline">View all news</a>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .prose {
+        @apply text-gray-800 leading-relaxed;
+    }
+    
+    .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+        @apply font-serif font-semibold text-gray-900 mt-8 mb-4;
+    }
+    
+    .prose h2 {
+        @apply text-2xl;
+    }
+    
+    .prose h3 {
+        @apply text-xl;
+    }
+    
+    .prose p {
+        @apply mb-4;
+    }
+    
+    .prose ul, .prose ol {
+        @apply mb-4 ml-6;
+    }
+    
+    .prose li {
+        @apply mb-2;
+    }
+    
+    .prose ul li {
+        @apply list-disc;
+    }
+    
+    .prose ol li {
+        @apply list-decimal;
+    }
+    
+    .prose a {
+        @apply text-primary hover:text-blue-800 hover:underline;
+    }
+    
+    .prose blockquote {
+        @apply border-l-4 border-primary pl-4 italic text-gray-600 my-6;
+    }
+    
+    .prose code {
+        @apply bg-gray-100 px-2 py-1 rounded text-sm;
+    }
+    
+    .prose pre {
+        @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-6;
+    }
+    
+    .prose img {
+        @apply rounded-lg shadow-sm my-6;
+    }
+</style>

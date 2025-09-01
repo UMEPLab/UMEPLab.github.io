@@ -1,0 +1,24 @@
+---
+// 定义组件期望接收的数据类型
+interface Props {
+    name: string;
+    title: string;
+    email: string;
+    photo: string;
+    researchInterest?: string; // researchInterest是可选的
+}
+
+const { name, title, email, photo, researchInterest } = Astro.props;
+---
+
+<div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 text-center transition-shadow hover:shadow-md">
+    <img src={photo} alt=`Photo of ${name}` class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" />
+    <h3 class="text-xl font-serif font-bold text-primary">{name}</h3>
+    <p class="text-gray-600 mb-2">{title}</p>
+    
+    {researchInterest && (
+        <p class="text-sm text-gray-500 italic mb-4">"{researchInterest}"</p>
+    )}
+
+    <a href={`mailto:${email}`} class="text-sm text-primary hover:underline">{email}</a>
+</div>

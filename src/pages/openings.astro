@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有招聘信息
+const allOpenings = await getCollection('openings');
+
+// 按状态和截止日期排序
+const activeOpenings = allOpenings
+  .filter(opening => opening.data.status === 'active')
+  .sort((a, b) => new Date(a.data.deadline).getTime() - new Date(b.data.deadline).getTime());
+
+const closedOpenings = allOpenings
+  .filter(opening => opening.data.status === 'closed')
+  .sort((a, b) => new Date(b.data.deadline).getTime() - new Date(a.data.deadline).getTime());
+
+// 统计信息
+const totalOpenings = allOpenings.length;
+const activeCount = activeOpenings.length;
+const positions = [...new Set(allOpenings.map(opening => opening.data.position))];
+---
+
+<Layout title="Openings - UMEP Lab">
+    <div class="max-w-4xl mx-auto">
+        <!-- Page Header -->
+        <section class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4 text-primary">Join Us!</h1>
+            <p class="text-xl text-gray-600 leading-relaxed">
+                We are looking for highly motivated students to join our Lab.
+            </p>
+        </section>
+
+        <!-- Position Overview -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                <h2 class="text-2xl font-semibold text-primary mb-6">Position Overview</h2>
+                <div class="space-y-6 text-gray-700">
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Research Assistant (RA)</strong>
+                                <p class="mt-1">Long-term openings available. Competitive salary and research opportunities.</p>
+                            </div>
+                        </li>
+                        
+                        <!--- Visiting Research Student (VRS) 
+                        <li class="flex items-start">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Visiting Research Student (VRS)</strong>
+                                <p class="mt-1">Welcome Visiting Research Student for collaborative research. Flexible duration arrangements.</p>
+                            </div>
+                        </li>-->
+                        
+                        <li class="flex items-start">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">PhD Students</strong>
+                                <p class="mt-1">Long-term openings available. PhD students will be admitted in January and September each year. Please refer to the official guidelines for more details.</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Postdoc</strong>
+                                <p class="mt-1"><strong>Positions will open in 2025.</strong> Very competitive salary and research fund package. Welcome to drop your resume and research proposal.</p>
+                            </div>
+                        </li>
+
+                        <li class="flex items-start">
+                            <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Undergraduate (UG)</strong>
+                                <p class="mt-1">Undergraduate students are encouraged to apply for the <strong>RedBird MPhil of HKUST-gz.</strong></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                <h2 class="text-2xl font-semibold text-primary mb-6">Application Requirements</h2>
+                
+                <!-- Academic Background -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">▲ Academic Background</h3>
+                    <p class="text-gray-700">Geographic Information Systems, Urban Science, Computer Science, Transportation, Behavioral Economics, or related fields.</p>
+                </div>
+
+                <!-- Technical Skills -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">▲ Technical Skills</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-medium">1.</span>
+                            <span>Proficiency in at least one programming language (Python/R/Java), with foundations in deep learning and machine learning, experience with PyTorch/TensorFlow frameworks.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-medium">2.</span>
+                            <span>Proficient in using GIS/QGIS/Geopandas for spatial data processing and analysis</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-medium">3.</span>
+                            <span>Prior research experience in spatiotemporal behavioral data mining, LLM agent fine-tuning, reinforcement learning, graph neural networks, spatial causal inference, or urban visual intelligence is preferred.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-primary font-medium">4.</span>
+                            <span>Knowledge of behavioral geography, cognitive psychology theories, and research paradigms is preferred.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- English Proficiency -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">▲ English Proficiency</h3>
+                    <p class="text-gray-700">Good English academic presentation skills, meeting university admission English requirements.</p>
+                </div>
+
+                <!-- Research Experience -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">▲ Research Experience</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span>Recent PhD applicants should have <strong>first-author publications or supervisor-first/student-second author papers published or under review in authoritative journals.</strong></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span>Candidates without relevant publications but with outstanding potential may <strong>apply for research assistant positions first.</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Other Requirements -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">▲ Other Requirements</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span>Fast learning ability and strong self-motivation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span>Proactive attitude and strong execution skills</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span>Enjoy sports and maintain work-life balance</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Instructions -->
+        <section class="mb-12">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                <h2 class="text-2xl font-semibold text-primary mb-6">Application Instructions</h2>
+                <div class="space-y-6 text-gray-700">
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Application Materials:</strong>
+                                <ul class="list-disc list-inside text-gray-700 ml-4 mt-1 space-y-1">
+                                    <li>Please briefly introduce your relevant experience related to the above research directions.</li>
+                                    <li>Prepare your <strong>English academic CV, transcripts including rankings</strong> and other relevant materials to send to <strong>qiumengli@hkust-gz.edu.cn</strong>.</li>
+                                    <li>It is recommended to attach <strong>research proposals and representative works</strong> that align with the research group's directions.</li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Email Format:</strong>
+                                <p class="mt-1">Please indicate in the email subject line: <code class="bg-gray-200 px-2 py-1 rounded text-sm font-bold">PhD/RA/Postdoc+Name+Major+University</code>(eg:PhD-ZhangSan-UrbanScience-HKUST(gz))</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Research Assistant:</strong>
+                                <p class="mt-1">Research assistant applications require <strong>at least 6 months commitment.</strong> Outstanding candidates may receive <strong>referrals to prestigious companies and recommendations to top universities</strong> at home and abroad.</p>
+                            </div>
+                        </li>
+                        
+                        <li class="flex items-start">
+                            <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <div>
+                                <strong class="text-gray-900">Note:</strong>
+                                <p class="mt-1 text-sm text-gray-600">Due to the large number of applicants, we cannot reply to each one individually. <strong>Applications are processed once per month.</strong></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="mt-8 text-center">
+                    <a 
+                        href="mailto:qiumengli@hkust-gz.edu.cn?subject=PhD/RA/Postdoc+Name+Major+University"
+                        class="inline-flex items-center px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-blue-800 transition-colors text-lg"
+                    >
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Send Application Email
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mentor's Message -->
+        <section>
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+                <div class="text-primary text-4xl mb-4">✨</div>
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Mentor's Message</h2>
+                <p class="text-lg text-gray-700 italic font-semibold">"Seek Truth through Illusion; Find Joy in Research."</p>
+            </div>
+        </section>
+    </div>
+</Layout>

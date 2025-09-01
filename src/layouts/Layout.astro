@@ -1,0 +1,101 @@
+---
+import '../styles/global.css'; 
+import Header from '../components/Header.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="UMEP Lab - Urban Meteorology and Environmental Physics Laboratory" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+		<!-- 预加载字体 -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		
+		<!-- Meta tags for better SEO -->
+		<meta name="theme-color" content="#2563eb" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	</head>
+	<body class="font-sans text-dark-800 overflow-x-hidden">
+		<!-- 页面加载动画背景 -->
+		<div class="fixed inset-0 bg-gradient-to-br from-primary-50 via-accent-50 to-primary-100 -z-10"></div>
+		
+		<!-- 装饰性背景元素 -->
+		<div class="fixed inset-0 -z-10 overflow-hidden">
+			<div class="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary-200/30 to-accent-200/30 rounded-full blur-3xl animate-float"></div>
+			<div class="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-accent-200/20 to-primary-200/20 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+		</div>
+		
+		<Header />
+		
+		<main class="relative z-10 page-enter pt-8 pb-16">
+			<slot />
+		</main>
+		
+		<!-- 返回顶部按钮 -->
+		<button 
+			id="back-to-top" 
+			class="fixed bottom-8 right-8 w-12 h-12 bg-primary-600 text-white rounded-full shadow-glow opacity-0 invisible transition-all duration-300 hover:bg-primary-700 hover:scale-110 z-50"
+			aria-label="Back to top"
+		>
+			<svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+			</svg>
+		</button>
+		
+		<script>
+			// 返回顶部功能
+			document.addEventListener('DOMContentLoaded', function() {
+				const backToTopButton = document.getElementById('back-to-top');
+				
+				window.addEventListener('scroll', function() {
+					if (window.pageYOffset > 300) {
+						backToTopButton?.classList.remove('opacity-0', 'invisible');
+						backToTopButton?.classList.add('opacity-100', 'visible');
+					} else {
+						backToTopButton?.classList.add('opacity-0', 'invisible');
+						backToTopButton?.classList.remove('opacity-100', 'visible');
+					}
+				});
+				
+				backToTopButton?.addEventListener('click', function() {
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+				});
+				
+				// 页面元素动画观察器
+				const observerOptions = {
+					threshold: 0.1,
+					rootMargin: '0px 0px -50px 0px'
+				};
+				
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('animate-slide-up');
+						}
+					});
+				}, observerOptions);
+				
+				// 观察所有需要动画的元素
+				document.querySelectorAll('.animate-on-scroll').forEach(el => {
+					observer.observe(el);
+				});
+			});
+		</script>
+	</body>
+</html>
