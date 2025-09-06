@@ -35,6 +35,11 @@ const publicationsCollection = defineCollection({
     abstract: z.string().optional(),
     keywords: z.array(z.string()).optional(),
     type: z.enum(['journal', 'conference', 'book', 'preprint']).default('journal'),
+    googleScholar: z.object({
+      url: z.string(),
+      citations: z.number(),
+      lastUpdated: z.string(),
+    }).optional(),
   }),
 });
 
