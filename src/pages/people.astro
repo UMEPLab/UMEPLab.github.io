@@ -5,61 +5,60 @@ import Layout from '../layouts/Layout.astro';
 const teamMembers = {
   director: [
     {
-      name: "Dr. Sarah Chen",
+      name: "Dr. Qiumeng Li",
       title: "Lab Director & Professor",
-      email: "sarah.chen@umep.edu",
-      researchInterest: "Urban meteorology, environmental physics, and sustainable city development through innovative modeling and sensing technologies."
+      email: "qiumengli@hkust-gz.edu.cn",
+      researchInterest: "Built Environment Cognition for Mobility, AI Agent for Behavioural Geography"
     }
   ],
   phdStudents: [
     {
-      name: "Michael Zhang",
-      title: "PhD Student (3rd Year)",
+      name: "Chunhou Ji",
+      title: "PhD Student",
       email: "michael.zhang@student.umep.edu",
-      researchInterest: "LLM-driven agent-based mobility simulation and urban transportation modeling."
+      researchInterest: "LLM-driven agent-based mobility"
     },
     {
-      name: "Emily Rodriguez",
-      title: "PhD Student (2nd Year)", 
+      name: "Xinyue Liu",
+      title: "PhD Student", 
       email: "emily.rodriguez@student.umep.edu",
       researchInterest: "Urban environment perception modeling using computer vision and remote sensing data."
+    },
+    {
+      name: "Xiao Yang",
+      title: "PhD Student", 
+      email: "xyang608@connect.hkust-gz.edu.cn",
+      researchInterest: "Urban Neuroscience"
     }
+
   ],
   mphilStudents: [
     {
-      name: "David Kim",
-      title: "MPhil Student (1st Year)",
-      email: "david.kim@student.umep.edu", 
-      researchInterest: "Environmental exposure assessment and health impact analysis in urban contexts."
+      name: "Houjie Chen",
+      title: "MPhil Student",
+      email: "hchen060@connect.hkust-gz.edu.cn", 
+      researchInterest: "Urban Resilience"
     },
     {
-      name: "Lisa Wang",
-      title: "MPhil Student (2nd Year)",
-      email: "lisa.wang@student.umep.edu",
-      researchInterest: "Integration of LLM agents with human cognitive mechanisms for behavioral modeling."
-    }
-  ],
-  alumni: [
-    {
-      name: "Dr. John Martinez",
-      title: "Former PhD Student (2023)",
-      email: "john.martinez@tech-company.com",
-      researchInterest: "Now Senior Data Scientist at Urban Tech Solutions, specializing in smart city analytics."
+      name: "Xinxi Yang",
+      title: "MPhil Student",
+      email: "xyang593@connect.hkust-gz.edu.cn",
+      researchInterest: "Travel Behavior, Transportation Agent"
     },
     {
-      name: "Alice Thompson",
-      title: "Former MPhil Student (2022)",
-      email: "alice.thompson@consultant.com", 
-      researchInterest: "Currently Environmental Consultant at Green City Planning, focusing on sustainable urban development."
+      name: "Xinrui Zhu",
+      title: "MPhil Student",
+      email: "xzhu765@connect.hkust-gz.edu.cn",
+      researchInterest: "Urban Cognition and Mobility, Virtual City LLM Agents"
     }
   ]
-};
+}
 ---
 
 <Layout title="Team Members">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="text-4xl font-serif font-bold text-center mb-4 text-primary">Our Team</h1>
-        <p class="text-center text-gray-600 mb-12">Meet the talented researchers of our lab.</p>
+        <p class="text-center text-gray-600 mb-12">Researchers working together in our lab.</p>
 
         <!-- Lab Director -->
         <section class="mb-12">
@@ -128,32 +127,6 @@ const teamMembers = {
                             <div class="flex-grow">
                                 <h3 class="text-lg font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
                                 <p class="text-green-600 font-medium mb-2 text-sm">{member.title}</p>
-                                <p class="text-gray-600 mb-3 leading-relaxed text-sm">{member.researchInterest}</p>
-                                <a href={`mailto:${member.email}`} class="text-xs text-primary hover:text-blue-800 transition-colors">
-                                    {member.email}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </section>
-
-        <!-- Alumni -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-serif font-bold mb-6 text-primary border-b-2 border-primary/20 pb-2">Alumni</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {teamMembers.alumni.map(member => (
-                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
-                                </svg>
-                            </div>
-                            <div class="flex-grow">
-                                <h3 class="text-lg font-serif font-bold text-gray-900 mb-1">{member.name}</h3>
-                                <p class="text-purple-600 font-medium mb-2 text-sm">{member.title}</p>
                                 <p class="text-gray-600 mb-3 leading-relaxed text-sm">{member.researchInterest}</p>
                                 <a href={`mailto:${member.email}`} class="text-xs text-primary hover:text-blue-800 transition-colors">
                                     {member.email}
