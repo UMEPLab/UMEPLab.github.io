@@ -1,10 +1,9 @@
 ---
 title: "IoT Environmental Monitoring Network"
-description: "Building comprehensive environmental monitoring systems using IoT technologies and machine learning analytics."
+description: "Our environmental monitoring project leverages cutting-edge IoT technologies to create comprehensive urban sensing networks for air quality monitoring, noise pollution assessment, urban microclimate analysis, and public health impact studies."
 image: "/assets/research/environmental-monitoring.jpg"
 keywords: ["IoT", "environmental monitoring", "machine learning", "data analytics"]
 status: "active"
-startDate: 2022-03-01
 ---
 
 Our environmental monitoring project leverages cutting-edge IoT technologies to create comprehensive urban sensing networks.

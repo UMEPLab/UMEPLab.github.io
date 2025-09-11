@@ -1,5 +1,37 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取所有研究项目
+const allResearch = await getCollection('research');
+
+// 按标题排序
+const sortedResearch = allResearch.sort((a, b) => 
+  a.data.title.localeCompare(b.data.title)
+);
+
+// 为不同项目定义图标
+function getProjectIcon(title: string) {
+  if (title.includes('LLM') || title.includes('Mobility')) {
+    // LLM 和移动性相关 - 使用网络/连接图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>`;
+  } else if (title.includes('Environmental') || title.includes('IoT')) {
+    // 环境监测 - 使用传感器/监测图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>`;
+  } else if (title.includes('Energy') || title.includes('Renewable')) {
+    // 可再生能源 - 使用能源/电力图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>`;
+  } else if (title.includes('Urban') && title.includes('Planning')) {
+    // 城市规划 - 使用建筑/城市图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>`;
+  } else if (title.includes('Heat') || title.includes('Climate')) {
+    // 城市热岛/气候 - 使用太阳/温度图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`;
+  } else {
+    // 默认图标 - 使用科学/研究图标
+    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>`;
+  }
+}
 ---
 
 <Layout title="Research - UMEP Lab">
@@ -8,166 +40,60 @@ import Layout from '../layouts/Layout.astro';
     <section class="text-center mb-16">
       <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Research Areas</h1>
       <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-        We study LLM-driven human mobility, urban environment perception, cognition-aware agents, 
-        and environmental exposure–health links. Our goal is to build data-driven, equitable, and 
-        low-carbon urban mobility systems.
+        Our research focuses on innovative solutions for urban challenges through interdisciplinary approaches 
+        combining environmental monitoring, renewable energy systems, and sustainable urban planning.
       </p>
     </section>
 
     <!-- Research Projects -->
     <div class="space-y-16">
-      <!-- 1: LLM-driven Agent-Based Mobility Simulation -->
-      <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="md:flex">
-          <div class="md:w-1/2">
-            <img
-              src="/assets/research/llm-abm.jpg"
-              alt="LLM-driven Agent-Based Mobility Simulation"
-              class="w-full h-64 md:h-full object-cover"
-            />
-          </div>
-          <div class="md:w-1/2 p-8">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4 4 4-4M12 13V4m-7 9a7 7 0 1014 0 7 7 0 00-14 0z"></path>
-                </svg>
+      {sortedResearch.map((research, index) => (
+        <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <div class={`md:flex ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
+            <div class="md:w-1/2 p-6 flex items-center justify-center bg-gray-50">
+              <img
+                src={research.data.image}
+                alt={research.data.title}
+                class="w-full h-64 md:h-full object-contain"
+              />
+            </div>
+            <div class="md:w-1/2 p-8">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <Fragment set:html={getProjectIcon(research.data.title)} />
+                  </svg>
+                </div>
+                <h2 class="text-2xl font-serif font-bold text-primary">{research.data.title}</h2>
               </div>
-              <h2 class="text-2xl font-serif font-bold text-primary">LLM-driven Agent-Based Mobility Simulation</h2>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">
-              We build hierarchical LLM agents to generate daily activity chains, travel mode and route choices,
-              and adaptive plan changes under context and policies. Applications include mobility equity,
-              congestion and emissions evaluation, and micro-mobility planning.
-            </p>
-            <div class="space-y-3">
-              <h3 class="font-semibold text-gray-800">Key Topics:</h3>
-              <ul class="text-gray-600 space-y-1">
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Hierarchical planner–executor agents for activity scheduling</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Mode/route choice and dynamic replanning</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Low-carbon interventions and policy simulation</li>
-              </ul>
-            </div>
-            <div class="mt-6">
-
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 2: Urban Environment Perception Modeling -->
-      <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="md:flex md:flex-row-reverse">
-          <div class="md:w-1/2">
-            <img
-              src="/assets/research/environment-perception.jpg"
-              alt="Urban Environment Perception Modeling"
-              class="w-full h-64 md:h-full object-cover"
-            />
-          </div>
-          <div class="md:w-1/2 p-8">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h7l2 3h9M5 21h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"></path>
-                </svg>
+              <p class="text-gray-700 mb-6 leading-relaxed">
+                {research.data.description}
+              </p>
+              <div class="space-y-3">
+                <h3 class="font-semibold text-gray-800">Keywords:</h3>
+                <div class="flex flex-wrap gap-2">
+                  {research.data.keywords.map(keyword => (
+                    <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <h2 class="text-2xl font-serif font-bold text-primary">Urban Environment Perception Modeling</h2>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">
-              We fuse street-view imagery, remote sensing, and POI to learn semantic attributes of the built
-              environment (greenery, enclosure, walkability, safety cues) and link them to mobility and well-being.
-            </p>
-            <div class="space-y-3">
-              <h3 class="font-semibold text-gray-800">Key Topics:</h3>
-              <ul class="text-gray-600 space-y-1">
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>CV with weak/ self-supervised learning on street-view</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Multisource fusion of RS–POI–trajectories</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Environment perception–mobility coupling</li>
-              </ul>
-            </div>
-            <div class="mt-6">
-
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 3: LLM & Human Cognition -->
-      <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="md:flex">
-          <div class="md:w-1/2">
-            <img
-              src="/assets/research/llm-cognition.jpg"
-              alt="LLM and Human Cognition"
-              class="w-full h-64 md:h-full object-cover"
-            />
-          </div>
-          <div class="md:w-1/2 p-8">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m-3 0h6"></path>
-                </svg>
+              <div class="mt-6 flex items-center justify-end">
+                <span class={`px-2 py-1 rounded-full text-xs font-medium ${
+                  research.data.status === 'active' 
+                    ? 'bg-green-100 text-green-800' 
+                    : research.data.status === 'completed'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {research.data.status.charAt(0).toUpperCase() + research.data.status.slice(1)}
+                </span>
               </div>
-              <h2 class="text-2xl font-serif font-bold text-primary">LLM and Human Cognitive Mechanisms</h2>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">
-              We align LLM agents with human cognition—preferences, personality, goals, and constraints—to
-              improve behavioral realism. We study how stress, time pressure, and social context trigger plan changes.
-            </p>
-            <div class="space-y-3">
-              <h3 class="font-semibold text-gray-800">Key Topics:</h3>
-              <ul class="text-gray-600 space-y-1">
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Personality/attitude extraction with NLP</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Cognition-aware decision rules and reflection loops</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Human-in-the-loop evaluation and alignment</li>
-              </ul>
-            </div>
-            <div class="mt-6">
-              </a>
             </div>
           </div>
-        </div>
-      </article>
-
-      <!-- 4: Environmental Exposure & Health Effects -->
-      <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div class="md:flex md:flex-row-reverse">
-          <div class="md:w-1/2">
-            <img
-              src="/assets/research/exposure-health.jpg"
-              alt="Environmental Exposure and Health Effects"
-              class="w-full h-64 md:h-full object-cover"
-            />
-          </div>
-          <div class="md:w-1/2 p-8">
-            <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.79-3 4s1.343 4 3 4 3-1.79 3-4-1.343-4-3-4zM5 20h14"></path>
-                </svg>
-              </div>
-              <h2 class="text-2xl font-serif font-bold text-primary">Environmental Exposure & Health Effects</h2>
-            </div>
-            <p class="text-gray-700 mb-6 leading-relaxed">
-              We quantify on-the-move exposure to air pollution, noise, heat, and greenspace by coupling
-              trajectories with high-resolution environmental layers, and assess short-/long-term health risks.
-            </p>
-            <div class="space-y-3">
-              <h3 class="font-semibold text-gray-800">Key Topics:</h3>
-              <ul class="text-gray-600 space-y-1">
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Trajectory-level exposure assessment (PM₂.₅/NO₂, noise, heat, greenness)</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Time–activity patterns and dose–response modeling</li>
-                <li class="flex items-start"><span class="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>Health equity and vulnerable groups</li>
-              </ul>
-            </div>
-            <div class="mt-6">
-
-            </div>
-          </div>
-        </div>
-      </article>
+        </article>
+      ))}
     </div>
   </div>
 </Layout>

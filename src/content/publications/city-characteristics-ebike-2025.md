@@ -9,7 +9,7 @@ authors:
 
 journal: "Sustainable Cities and Society"
 year: 2025
-publishedDate: 2025-02
+publishedDate: 2025-02-01
 volume: "120"
 pages: "106008"
 doi: "10.1016/j.scs.2024.106008"

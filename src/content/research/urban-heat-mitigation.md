@@ -1,10 +1,9 @@
 ---
 title: "Urban Heat Island Mitigation"
-description: "Developing innovative solutions to reduce urban heat island effects through green infrastructure and smart city technologies."
+description: "Our urban heat island mitigation project focuses on developing and implementing innovative solutions to reduce excessive heat in urban environments through quantifying heat island effects, developing green infrastructure solutions, creating predictive models, and engaging communities in implementation strategies."
 image: "/assets/research/urban-heat-mitigation.jpg"
 keywords: ["urban heat island", "green infrastructure", "climate adaptation", "smart cities"]
 status: "active"
-startDate: 2022-09-01
 ---
 
 Our urban heat island mitigation project focuses on developing and implementing innovative solutions to reduce excessive heat in urban environments.

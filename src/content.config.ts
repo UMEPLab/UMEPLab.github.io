@@ -44,18 +44,16 @@ const publicationsCollection = defineCollection({
   }),
 });
 
-// 更新 news 集合
+// 简化 news 集合，只用于主页快报展示
 const newsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
     date: z.date(),
-    summary: z.string(),
-    excerpt: z.string(),
-    category: z.enum(['research', 'publication', 'award', 'event', 'collaboration']).default('research'),
+    summary: z.string(), // 简短摘要，用于快报显示
+    category: z.enum(['publication', 'award', 'event', 'collaboration']).default('event'),
     image: z.string().optional(),
     author: z.string().optional(),
-    featured: z.boolean().default(false),
   }),
 });
 
@@ -68,7 +66,6 @@ const researchCollection = defineCollection({
     image: z.string(),
     keywords: z.array(z.string()),
     status: z.enum(['active', 'completed', 'planned']).default('active'),
-    startDate: z.date(),
     endDate: z.date().optional(),
   }),
 });

@@ -1,10 +1,9 @@
 ---
 title: "Smart Renewable Energy Integration"
-description: "Advancing the integration of renewable energy sources into smart grid systems for enhanced efficiency and reliability."
+description: "This project addresses the challenges of integrating renewable energy sources into existing power grid infrastructure through advanced energy storage solutions, grid optimization algorithms, demand response systems, and renewable energy forecasting."
 image: "/assets/research/renewable-energy-systems.jpg"
 keywords: ["renewable energy", "smart grid", "energy storage", "optimization"]
 status: "active"
-startDate: 2023-01-15
 ---
 
 This project addresses the challenges of integrating renewable energy sources into existing power grid infrastructure.
