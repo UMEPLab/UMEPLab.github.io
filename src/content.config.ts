@@ -26,6 +26,7 @@ const publicationsCollection = defineCollection({
     })),
     journal: z.string(),
     year: z.number(),
+    publishedDate: z.date().optional(), // 具体发布日期
     volume: z.string().optional(),
     pages: z.string().optional(),
     doi: z.string().optional(),

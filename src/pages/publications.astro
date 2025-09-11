@@ -6,17 +6,35 @@ import { getCollection } from 'astro:content';
 // 获取所有出版物
 const allPublications = await getCollection('publications');
 
-// 按年份和类型对出版物进行分组
-const pubsByYear = allPublications
-  .sort((a, b) => b.data.year - a.data.year) // 按年份降序排序
-  .reduce((acc, pub) => {
-    const year = pub.data.year;
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(pub);
-    return acc;
-  }, {} as Record<number, any[]>);
+// 按发布日期和年份对出版物进行排序
+const sortedPublications = allPublications.sort((a, b) => {
+  // 如果有具体发布日期，优先按发布日期排序
+  if (a.data.publishedDate && b.data.publishedDate) {
+    return new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime();
+  }
+  
+  // 如果只有一个有发布日期，有日期的排在前面
+  if (a.data.publishedDate && !b.data.publishedDate) return -1;
+  if (!a.data.publishedDate && b.data.publishedDate) return 1;
+  
+  // 都没有发布日期则按年份降序排序
+  if (a.data.year !== b.data.year) {
+    return b.data.year - a.data.year;
+  }
+  
+  // 同年按标题字母顺序排序
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// 按年份对出版物进行分组
+const pubsByYear = sortedPublications.reduce((acc, pub) => {
+  const year = pub.data.year;
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(pub);
+  return acc;
+}, {} as Record<number, any[]>);
 
 const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
 
@@ -35,8 +53,8 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
             <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
                 Our publications include peer-reviewed journal articles, conference papers, and collaborative works.
             </p>
-            
-            <!-- Statistics -->
+
+            <!-- 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
                 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
                     <div class="text-2xl font-bold text-primary">{totalPubs}</div>
@@ -56,7 +74,7 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
                 </div>
             </div>
         </section>
-
+        -->    
         <!-- Filter Options -->
         <section class="mb-8">
             <div class="flex flex-wrap gap-4 justify-center">
@@ -95,17 +113,16 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
                                     authors={pub.data.authors}
                                     journal={pub.data.journal}
                                     year={pub.data.year}
+                                    publishedDate={pub.data.publishedDate}
                                     volume={pub.data.volume}
                                     pages={pub.data.pages}
                                     type={pub.data.type}
                                     links={{
                                         doi: pub.data.doi,
                                         code: pub.data.code,
-                                        projectPage: pub.data.projectPage
                                     }}
                                     abstract={pub.data.abstract}
                                     keywords={pub.data.keywords}
-                                    googleScholar={pub.data.googleScholar}
                                 />
                             </div>
                         ))}
