@@ -5,5 +5,6 @@ export default defineConfig({
   site: 'https://umeplab.github.io/',
   base: '/',
   integrations: [tailwind()],
-  output: 'static'
+    output: 'static' 
+
 });
