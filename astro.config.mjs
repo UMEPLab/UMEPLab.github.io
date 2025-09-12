@@ -3,6 +3,7 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://umep-lab.github.io/',
-  integrations: [tailwind()]
-});
+  integrations: [tailwind()],
+    output: 'static' 
 
+});
