@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
-  site: 'https://umep-lab.github.io/',
+  site: 'https://umeplab.github.io/',
+  base: '/',
   integrations: [tailwind()],
-    output: 'static' 
-
+  output: 'static'
 });
