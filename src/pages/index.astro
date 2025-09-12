@@ -20,10 +20,10 @@ const latestNews = sortedNews.slice(0, 6);
         
         <!-- Hero Section -->
         <div class="bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-3xl py-12 lg:py-20 mb-12 lg:mb-16 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-            <!-- Research Showcase Carousel with Hero -->
+            <!-- Hero Section with UMEP Lab Introduction -->
             <section class="mb-8">
                 <div class="flex flex-col xl:flex-row items-center xl:items-start gap-8 xl:gap-12">
-                    <!-- Left side: Research Image -->
+                    <!-- Left side: Lab Logo -->
                     <div class="w-full max-w-md xl:w-96 xl:h-96 xl:flex-shrink-0">
                         <img 
                             src="banner.png" 
@@ -32,118 +32,24 @@ const latestNews = sortedNews.slice(0, 6);
                         />
                     </div>
                     
-                    <!-- Right side: Carousel -->
-                    <div class="flex-1 relative overflow-hidden h-64 xl:h-96 rounded-2xl w-full" 
+                    <!-- Right side: Lab Introduction -->
+                    <div class="flex-1 relative h-64 xl:h-96 rounded-2xl w-full" 
                          style="background-image: url('/hero.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                         <!-- Background overlay -->
                         <div class="absolute inset-0 bg-black/10 rounded-2xl"></div>
 
-                    <div class="research-carousel flex transition-transform duration-500 ease-in-out relative z-10">
-                        <!-- Slide 0: UMEP Lab Hero -->
-                        <div class="research-slide w-full flex-shrink-0">
+                        <div class="relative z-10 h-full">
                             <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <div class="text-center text-white px-4 xl:px-8">
-                                        <h1 class="text-2xl xl:text-4xl font-serif font-bold mb-2 xl:mb-4 drop-shadow-lg">UMEP Lab</h1>
-                                        <h2 class="text-sm xl:text-lg mb-4 xl:mb-6 opacity-90 drop-shadow-md">Urban Mobility and Environmental Perception Laboratory</h2>
-                                        <p class="text-xs xl:text-sm opacity-80 max-w-xs xl:max-w-md mx-auto leading-relaxed drop-shadow-md mb-4 xl:mb-6">
+                                        <h1 class="text-3xl xl:text-5xl font-serif font-bold mb-4 xl:mb-6 drop-shadow-lg">UMEP Lab</h1>
+                                        <h2 class="text-lg xl:text-2xl mb-6 xl:mb-8 opacity-90 drop-shadow-md">Urban Mobility and Environmental Perception Laboratory</h2>
+                                        <p class="text-sm xl:text-lg opacity-85 max-w-lg xl:max-w-2xl mx-auto leading-relaxed drop-shadow-md mb-6 xl:mb-8">
                                             Advancing our understanding of urban mobility, environmental perception, and sustainable city development through innovative research and cutting-edge technology.
                                         </p>
-                                        <a href="/publications" class="inline-flex items-center px-4 xl:px-6 py-2 xl:py-3 bg-white/20 hover:bg-white/30 text-white rounded-lg hover:rounded-xl transition-all duration-300 font-semibold text-sm xl:text-base backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                        <a href="/publications" class="inline-flex items-center px-6 xl:px-8 py-3 xl:py-4 bg-white/20 hover:bg-white/30 text-white rounded-lg hover:rounded-xl transition-all duration-300 font-semibold text-base xl:text-lg backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                                             Explore Our Research
-                                            <svg class="w-4 h-4 xl:w-5 xl:h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Research Slide 1: LLM-driven Agent-Based Mobility Simulation -->
-                        <div class="research-slide w-full flex-shrink-0">
-                            <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white px-4 xl:px-8">
-                                        <div class="w-12 h-12 xl:w-16 xl:h-16 bg-white/1 rounded-full flex items-center justify-center mb-4 xl:mb-6 mx-auto">
-                                            <svg class="w-6 h-6 xl:w-8 xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4 4 4-4M12 13V4m-7 9a7 7 0 1014 0 7 7 0 00-14 0z"></path>
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg xl:text-2xl font-serif font-bold mb-2 xl:mb-4 drop-shadow-lg">LLM-driven Agent-Based Mobility Simulation</h3>
-                                        <p class="text-sm xl:text-base opacity-90 max-w-sm xl:max-w-lg mx-auto drop-shadow-md mb-3 xl:mb-4">Hierarchical LLM agents for activity scheduling, mode/route choice, and dynamic replanning under context and policies.</p>
-                                        <a href="/publications" class="inline-flex items-center px-3 xl:px-4 py-1.5 xl:py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 font-medium text-xs xl:text-sm backdrop-blur-sm border border-white/20 hover:border-white/40">
-                                            Learn More
-                                            <svg class="w-3 h-3 xl:w-4 xl:h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Research Slide 2: Urban Environment Perception Modeling -->
-                        <div class="research-slide w-full flex-shrink-0">
-                            <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white px-4 xl:px-8">
-                                        <div class="w-12 h-12 xl:w-16 xl:h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 xl:mb-6 mx-auto">
-                                            <svg class="w-6 h-6 xl:w-8 xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h7l2 3h9M5 21h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v11a2 2 0 002 2z"></path>
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg xl:text-2xl font-serif font-bold mb-2 xl:mb-4 drop-shadow-lg">Urban Environment Perception Modeling</h3>
-                                        <p class="text-sm xl:text-base opacity-90 max-w-sm xl:max-w-lg mx-auto drop-shadow-md mb-3 xl:mb-4">Fusing street-view imagery, remote sensing, and POI to learn semantic attributes of the built environment.</p>
-                                        <a href="/publications" class="inline-flex items-center px-3 xl:px-4 py-1.5 xl:py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 font-medium text-xs xl:text-sm backdrop-blur-sm border border-white/20 hover:border-white/40">
-                                            Learn More
-                                            <svg class="w-3 h-3 xl:w-4 xl:h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Research Slide 3: LLM & Human Cognition -->
-                        <div class="research-slide w-full flex-shrink-0">
-                            <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white px-4 xl:px-8">
-                                        <div class="w-12 h-12 xl:w-16 xl:h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 xl:mb-6 mx-auto">
-                                            <svg class="w-6 h-6 xl:w-8 xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m-3 0h6"></path>
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg xl:text-2xl font-serif font-bold mb-2 xl:mb-4 drop-shadow-lg">LLM and Human Cognitive Mechanisms</h3>
-                                        <p class="text-sm xl:text-base opacity-90 max-w-sm xl:max-w-lg mx-auto drop-shadow-md mb-3 xl:mb-4">Aligning LLM agents with human cognition—preferences, personality, goals, and constraints for behavioral realism.</p>
-                                        <a href="/publications" class="inline-flex items-center px-3 xl:px-4 py-1.5 xl:py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 font-medium text-xs xl:text-sm backdrop-blur-sm border border-white/20 hover:border-white/40">
-                                            Learn More
-                                            <svg class="w-3 h-3 xl:w-4 xl:h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Research Slide 4: Environmental Exposure & Health Effects -->
-                        <div class="research-slide w-full flex-shrink-0">
-                            <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white px-4 xl:px-8">
-                                        <div class="w-12 h-12 xl:w-16 xl:h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 xl:mb-6 mx-auto">
-                                            <svg class="w-6 h-6 xl:w-8 xl:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.79-3 4s1.343 4 3 4 3-1.79 3-4-1.343-4-3-4zM5 20h14"></path>
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg xl:text-2xl font-serif font-bold mb-2 xl:mb-4 drop-shadow-lg">Environmental Exposure & Health Effects</h3>
-                                        <p class="text-sm xl:text-base opacity-90 max-w-sm xl:max-w-lg mx-auto drop-shadow-md mb-3 xl:mb-4">Quantifying on-the-move exposure to air pollution, noise, heat, and greenspace with trajectory-level assessment.</p>
-                                        <a href="/publications" class="inline-flex items-center px-3 xl:px-4 py-1.5 xl:py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 font-medium text-xs xl:text-sm backdrop-blur-sm border border-white/20 hover:border-white/40">
-                                            Learn More
-                                            <svg class="w-3 h-3 xl:w-4 xl:h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-5 h-5 xl:w-6 xl:h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                             </svg>
                                         </a>
@@ -152,30 +58,8 @@ const latestNews = sortedNews.slice(0, 6);
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Carousel Navigation -->
-                    <div class="flex justify-center mt-6 xl:mt-8 space-x-2">
-                        <button class="carousel-dot w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-primary transition-opacity" data-slide="0"></button>
-                        <button class="carousel-dot w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-opacity" data-slide="1"></button>
-                        <button class="carousel-dot w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-opacity" data-slide="2"></button>
-                        <button class="carousel-dot w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-opacity" data-slide="3"></button>
-                        <button class="carousel-dot w-2.5 h-2.5 xl:w-3 xl:h-3 rounded-full bg-gray-300 hover:bg-gray-400 transition-opacity" data-slide="4"></button>
-                    </div>
-                    
-                    <!-- Navigation Arrows -->
-                    <button class="carousel-prev absolute left-2 xl:left-4 top-1/2 -translate-y-1/2 w-10 h-10 xl:w-12 xl:h-12 bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors flex items-center justify-center z-20">
-                        <svg class="w-5 h-5 xl:w-6 xl:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                    </button>
-                    <button class="carousel-next absolute right-2 xl:right-4 top-1/2 -translate-y-1/2 w-10 h-10 xl:w-12 xl:h-12 bg-white/90 rounded-full shadow-lg hover:bg-white transition-colors flex items-center justify-center z-20">
-                        <svg class="w-5 h-5 xl:w-6 xl:h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
                 </div>
-            </div>
-        </section>
+            </section>
         </div>
 
         <!-- Latest News & Updates -->
@@ -286,16 +170,6 @@ const latestNews = sortedNews.slice(0, 6);
         overflow: hidden;
     }
     
-    .research-carousel {
-        transition: transform 0.5s ease-in-out;
-        display: flex;
-    }
-    
-    .research-slide {
-        flex: 0 0 100%;
-        width: 100%;
-    }
-    
     /* Enhanced shadow utilities */
     .shadow-3xl {
         box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
@@ -324,16 +198,6 @@ const latestNews = sortedNews.slice(0, 6);
         }
     }
     
-    /* 为背景元素添加微妙的动画 */
-    .absolute.inset-0.opacity-10 svg {
-        animation: pulse-slow 8s ease-in-out infinite;
-    }
-    
-    /* 浮动元素的自定义动画 */
-    .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    
     /* Hero区域的额外视觉效果 */
     .hero-pattern::before {
         content: '';
@@ -359,149 +223,11 @@ const latestNews = sortedNews.slice(0, 6);
     .hover\:-translate-y-1:hover {
         transform: translateY(-0.25rem);
     }
-    
-    /* Carousel navigation buttons */
-    .carousel-prev, .carousel-next, .news-prev, .news-next {
-        cursor: pointer;
-        user-select: none;
-        pointer-events: auto;
-    }
-    
-    .carousel-prev:active, .carousel-next:active, .news-prev:active, .news-next:active {
-        transform: translateY(-50%) scale(0.95);
-    }
 </style>
 
 <script>
+    // Simple page interactions
     document.addEventListener('DOMContentLoaded', function() {
-        // Research Carousel - Simple Implementation
-        const carousel = document.querySelector('.research-carousel') as HTMLElement;
-        const slides = document.querySelectorAll('.research-slide');
-        const dots = document.querySelectorAll('.carousel-dot');
-        const prevButton = document.querySelector('.carousel-prev');
-        const nextButton = document.querySelector('.carousel-next');
-        
-        let currentSlide = 0;
-        let autoPlayInterval: number;
-        const totalSlides = slides.length;
-        
-        function goToSlide(slideIndex: number) {
-            currentSlide = slideIndex;
-            if (carousel) {
-                carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
-            
-            // Update dots
-            dots.forEach((dot, index) => {
-                if (index === currentSlide) {
-                    dot.classList.remove('bg-gray-300', 'hover:bg-gray-400');
-                    dot.classList.add('bg-primary');
-                } else {
-                    dot.classList.remove('bg-primary');
-                    dot.classList.add('bg-gray-300', 'hover:bg-gray-400');
-                }
-            });
-        }
-        
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            goToSlide(currentSlide);
-        }
-        
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            goToSlide(currentSlide);
-        }
-        
-        function startAutoPlay() {
-            autoPlayInterval = window.setInterval(nextSlide, 5000);
-        }
-        
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-            }
-        }
-        
-        // Initialize first slide
-        goToSlide(0);
-        
-        // Event listeners for research carousel
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                goToSlide(index);
-                stopAutoPlay();
-                startAutoPlay();
-            });
-        });
-        
-        if (nextButton) {
-            nextButton.addEventListener('click', () => {
-                nextSlide();
-                stopAutoPlay();
-                startAutoPlay();
-            });
-        }
-        
-        if (prevButton) {
-            prevButton.addEventListener('click', () => {
-                prevSlide();
-                stopAutoPlay();
-                startAutoPlay();
-            });
-        }
-        
-        // Pause autoplay on hover
-        const carouselContainer = carousel?.parentElement?.parentElement;
-        if (carouselContainer) {
-            carouselContainer.addEventListener('mouseenter', stopAutoPlay);
-            carouselContainer.addEventListener('mouseleave', startAutoPlay);
-        }
-        
-        // Touch/swipe support for research carousel
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        if (carousel) {
-            carousel.addEventListener('touchstart', (e: TouchEvent) => {
-                touchStartX = e.changedTouches[0].screenX;
-            });
-            
-            carousel.addEventListener('touchend', (e: TouchEvent) => {
-                touchEndX = e.changedTouches[0].screenX;
-                handleSwipe();
-            });
-        }
-        
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-            
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-                stopAutoPlay();
-                startAutoPlay();
-            }
-        }
-        
-        // Start autoplay
-        startAutoPlay();
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                prevSlide();
-                stopAutoPlay();
-                startAutoPlay();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-                stopAutoPlay();
-                startAutoPlay();
-            }
-        });
+        console.log('UMEP Lab homepage loaded');
     });
 </script>
