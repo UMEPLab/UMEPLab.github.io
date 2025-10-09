@@ -5,8 +5,8 @@ authors:
   - name: "Qiumeng Li"
     isPI: true
 journal: "Travel Behaviour and Society"
-year: 2025
-publishedDate: 2025-10-01
+year: 2024
+publishedDate: 2024-05-13
 volume: "41"
 pages: "101051"
 doi: "10.1016/j.tbs.2025.101051"

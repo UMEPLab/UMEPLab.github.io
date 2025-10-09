@@ -1,0 +1,170 @@
+---
+const canvasId = `agent-map-${Math.random().toString(36).slice(2)}`;
+---
+
+<div class="relative rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
+  <canvas id={canvasId} class="w-full" style="height:320px"></canvas>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.currentScript?.previousElementSibling;
+    const canvas = container?.querySelector('canvas');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const DPR = window.devicePixelRatio || 1;
+    const AGENT_COUNT = 12;
+    let nodes = [];
+    let edges = [];
+    let adjacency = new Map();
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.floor(rect.width * DPR);
+      canvas.height = Math.floor(rect.height * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      buildNetwork();
+      seedAgents();
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    const W = () => canvas.width / DPR;
+    const H = () => canvas.height / DPR;
+
+    function buildNetwork() {
+      nodes = [];
+      edges = [];
+      adjacency = new Map();
+
+      const margin = 36;
+      const cols = Math.max(4, Math.floor(W() / 160));
+      const rows = Math.max(3, Math.floor(H() / 120));
+      const cellW = (W() - margin * 2) / (cols - 1);
+      const cellH = (H() - margin * 2) / (rows - 1);
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = margin + c * cellW;
+          const y = margin + r * cellH;
+          nodes.push({ x, y });
+          adjacency.set(r * cols + c, []);
+        }
+      }
+
+      function addEdge(a, b) {
+        if (a < 0 || b < 0 || a >= nodes.length || b >= nodes.length) return;
+        edges.push({ a, b });
+        adjacency.get(a)?.push(b);
+        adjacency.get(b)?.push(a);
+      }
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const i = r * cols + c;
+          if (c < cols - 1) addEdge(i, i + 1);
+          if (r < rows - 1) addEdge(i, i + cols);
+        }
+      }
+    }
+
+    const colors = ['#1d4ed8', '#0ea5e9', '#22c55e', '#f59e0b', '#ef4444'];
+    let agents = [];
+
+    function edgeLength(a, b) {
+      const na = nodes[a];
+      const nb = nodes[b];
+      const dx = nb.x - na.x;
+      const dy = nb.y - na.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function seedAgents() {
+      agents = new Array(AGENT_COUNT).fill(0).map((_, i) => {
+        const e = edges[Math.floor(Math.random() * edges.length)] || { a: 0, b: 1 };
+        const len = edgeLength(e.a, e.b);
+        return {
+          from: e.a,
+          to: e.b,
+          progress: Math.random(),
+          speed: 1 + Math.random() * 1.2,
+          len,
+          color: colors[i % colors.length],
+        };
+      });
+    }
+
+    function step() {
+      agents.forEach(a => {
+        const inc = a.speed / a.len;
+        a.progress += inc;
+        if (a.progress >= 1) {
+          const current = a.to;
+          const neighbors = adjacency.get(current) || [];
+          let choices = neighbors.filter(n => n !== a.from);
+          if (choices.length === 0) choices = neighbors;
+          const next = choices[Math.floor(Math.random() * choices.length)] ?? a.from;
+          a.from = current;
+          a.to = next;
+          a.len = edgeLength(a.from, a.to);
+          a.progress = 0;
+        }
+      });
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, W(), H());
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(0, 0, W(), H());
+
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      edges.forEach(e => {
+        const na = nodes[e.a];
+        const nb = nodes[e.b];
+        ctx.beginPath();
+        ctx.moveTo(na.x, na.y);
+        ctx.lineTo(nb.x, nb.y);
+        ctx.stroke();
+      });
+
+      ctx.fillStyle = '#94a3b8';
+      nodes.forEach(n => {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      agents.forEach(a => {
+        const na = nodes[a.from];
+        const nb = nodes[a.to];
+        const x = na.x + (nb.x - na.x) * a.progress;
+        const y = na.y + (nb.y - na.y) * a.progress;
+        ctx.beginPath();
+        ctx.fillStyle = a.color;
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = a.color;
+        ctx.lineWidth = 1.5;
+        const dirX = Math.sign(nb.x - na.x);
+        const dirY = Math.sign(nb.y - na.y);
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + dirX * 10, y + dirY * 10);
+        ctx.stroke();
+      });
+    }
+
+    function animate() {
+      step();
+      render();
+      requestAnimationFrame(animate);
+    }
+
+    render();
+    animate();
+  });
+</script>

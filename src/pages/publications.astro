@@ -43,6 +43,22 @@ const totalPubs = allPublications.length;
 const journalPubs = allPublications.filter(pub => pub.data.type === 'journal').length;
 const conferencePubs = allPublications.filter(pub => pub.data.type === 'conference').length;
 const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().getFullYear() - 2).length;
+
+// Current Projects 使用两张静态卡片（基于用户提供图片）
+const staticProjects = [
+  {
+    title: 'AI Agent Framework',
+    image: '/LLMABMframework.jpg',
+    description: 'AI agents simulate daily travel routines, using LLMs to plan activities, reflect on behavior, and choose destinations and travel modes based on memory and context.',
+    keywords: ['LLM', 'ABM']
+  },
+  {
+    title: 'Urban MRT Distribution',
+    image: '/baolu.png',
+    description: 'Street view imagery data were used to calculate the MRT at each location around the Olympic Sports Center, enabling a refined estimation of heat exposure within the local travel environment.',
+    keywords: ['MRT', 'Urban Climate'],
+  },
+];
 ---
 
 <Layout title="Publications - UMEP Lab">
@@ -79,23 +95,17 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
         <!-- Filter Options -->
         <section class="mb-8">
             <div class="flex flex-wrap gap-4 justify-center">
-                <button class="filter-btn active" data-filter="all">
-                    All Publications
+                <button class="filter-btn active view-toggle-btn" data-view="pubs">
+                    Selected Publications
                 </button>
-                <button class="filter-btn" data-filter="journal">
-                    Journal Articles
-                </button>
-                <button class="filter-btn" data-filter="conference">
-                    Conference Papers
-                </button>
-                <button class="filter-btn" data-filter="preprint">
-                    Preprints
+                <button class="filter-btn view-toggle-btn" data-view="projects">
+                    Current Projects
                 </button>
             </div>
         </section>
 
         <!-- Publications by Year -->
-        <section>
+        <section id="pubs-view">
             {years.map(year => (
                 <div class="year-section mb-12" data-year={year}>
                     <div class="flex items-center mb-6">
@@ -132,6 +142,38 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
             ))}
         </section>
 
+        <!-- Current Projects View -->
+        <section id="projects-view" class="hidden">
+            <div class="mb-6">
+                <p class="text-gray-700 leading-relaxed">
+Our lab develops an AI agent framework that integrates Large Language Models (LLMs), Reinforcement Learning (RL), and Agent-Based Modeling (ABM) to study the complex interactions between human behavior, the built environment, and urban sustainability.
+                </p>
+            </div>
+
+            <div class="grid gap-8 sm:grid-cols-2 items-stretch">
+                {staticProjects.map(project => (
+                    <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        {project.image && (
+                            <div class="aspect-video overflow-hidden">
+                                <img src={project.image} alt={project.title} class="w-full h-full object-cover" />
+                            </div>
+                        )}
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="text-xl font-serif font-bold mb-2 text-gray-900">{project.title}</h3>
+                            <p class="text-gray-600 mb-4 flex-1">{project.description}</p>
+                            {project.keywords && (
+                                <div class="flex flex-wrap gap-2">
+                                    {project.keywords.slice(0, 5).map(kw => (
+                                        <span class="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full">{kw}</span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
         <!-- Empty State -->
         <div id="no-results" class="hidden text-center py-12">
             <div class="text-gray-400 mb-4">
@@ -156,51 +198,30 @@ const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().get
 </style>
 
 <script>
-    // Filter functionality
+    // View toggle functionality
     document.addEventListener('DOMContentLoaded', function() {
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const publicationItems = document.querySelectorAll('.publication-item');
-        const yearSections = document.querySelectorAll('.year-section');
-        const noResults = document.getElementById('no-results');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function(this: HTMLButtonElement) {
-                const filter = this.getAttribute('data-filter');
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
+        const toggleButtons = document.querySelectorAll('.view-toggle-btn');
+        const pubsView = document.getElementById('pubs-view');
+        const projectsView = document.getElementById('projects-view');
+
+        toggleButtons.forEach(btn => {
+            btn.addEventListener('click', function(this: HTMLButtonElement) {
+                const view = this.getAttribute('data-view');
+
+                // Update active state
+                toggleButtons.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-                
-                // Filter publications
-                let visibleCount = 0;
-                
-                publicationItems.forEach(item => {
-                    const type = item.getAttribute('data-type');
-                    const htmlItem = item as HTMLElement;
-                    if (filter === 'all' || type === filter) {
-                        htmlItem.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        htmlItem.style.display = 'none';
-                    }
-                });
-                
-                // Show/hide year sections based on visible publications
-                yearSections.forEach(section => {
-                    const visiblePubs = section.querySelectorAll('.publication-item[style="display: block;"], .publication-item:not([style*="display: none"])');
-                    const htmlSection = section as HTMLElement;
-                    if (filter === 'all' || visiblePubs.length > 0) {
-                        htmlSection.style.display = 'block';
-                    } else {
-                        htmlSection.style.display = 'none';
-                    }
-                });
-                
-                // Show/hide no results message
-                if (visibleCount === 0) {
-                    noResults?.classList.remove('hidden');
+
+                if (view === 'projects') {
+                    pubsView?.classList.add('hidden');
+                    projectsView?.classList.remove('hidden');
+                    // Ensure canvas-based components recompute size after becoming visible
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 50);
                 } else {
-                    noResults?.classList.add('hidden');
+                    projectsView?.classList.add('hidden');
+                    pubsView?.classList.remove('hidden');
                 }
             });
         });
