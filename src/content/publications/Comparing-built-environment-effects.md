@@ -1,5 +1,5 @@
 ---
-title: "Is there a link between city characteristics and shared e-bike utilisation? Evidence from China"
+title: "Comparing built environment effects on bike-sharing and electric bike-sharing usage: a spatiotemporal machine learning approach"
 
 authors:
   - name: "Yisong Zhu"
