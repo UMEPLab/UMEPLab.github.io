@@ -1,99 +1,229 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PublicationItem from '../components/PublicationItem.astro';
 import { getCollection } from 'astro:content';
 
-// 获取所有研究项目
-const allResearch = await getCollection('research');
+// 获取所有出版物
+const allPublications = await getCollection('publications');
 
-// 按标题排序
-const sortedResearch = allResearch.sort((a, b) => 
-  a.data.title.localeCompare(b.data.title)
-);
-
-// 为不同项目定义图标
-function getProjectIcon(title: string) {
-  if (title.includes('LLM') || title.includes('Mobility')) {
-    // LLM 和移动性相关 - 使用网络/连接图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>`;
-  } else if (title.includes('Environmental') || title.includes('IoT')) {
-    // 环境监测 - 使用传感器/监测图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>`;
-  } else if (title.includes('Energy') || title.includes('Renewable')) {
-    // 可再生能源 - 使用能源/电力图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>`;
-  } else if (title.includes('Urban') && title.includes('Planning')) {
-    // 城市规划 - 使用建筑/城市图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>`;
-  } else if (title.includes('Heat') || title.includes('Climate')) {
-    // 城市热岛/气候 - 使用太阳/温度图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`;
-  } else {
-    // 默认图标 - 使用科学/研究图标
-    return `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>`;
+// 按发布日期和年份对出版物进行排序
+const sortedPublications = allPublications.sort((a, b) => {
+  // 如果有具体发布日期，优先按发布日期排序
+  if (a.data.publishedDate && b.data.publishedDate) {
+    return new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime();
   }
-}
+  
+  // 如果只有一个有发布日期，有日期的排在前面
+  if (a.data.publishedDate && !b.data.publishedDate) return -1;
+  if (!a.data.publishedDate && b.data.publishedDate) return 1;
+  
+  // 都没有发布日期则按年份降序排序
+  if (a.data.year !== b.data.year) {
+    return b.data.year - a.data.year;
+  }
+  
+  // 同年按标题字母顺序排序
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// 按年份对出版物进行分组
+const pubsByYear = sortedPublications.reduce((acc, pub) => {
+  const year = pub.data.year;
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(pub);
+  return acc;
+}, {} as Record<number, any[]>);
+
+const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
+
+// 统计信息
+const totalPubs = allPublications.length;
+const journalPubs = allPublications.filter(pub => pub.data.type === 'journal').length;
+const conferencePubs = allPublications.filter(pub => pub.data.type === 'conference').length;
+const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().getFullYear() - 2).length;
+
+// Current Projects 使用两张静态卡片（基于用户提供图片）
+const staticProjects = [
+  {
+    title: 'AI Agent Framework',
+    image: '/LLMABMframework.jpg',
+    description: 'AI agents simulate daily travel routines, using LLMs to plan activities, reflect on behavior, and choose destinations and travel modes based on memory and context.',
+    keywords: ['LLM', 'ABM']
+  },
+  {
+    title: 'Urban MRT Distribution',
+    image: '/baolu.png',
+    description: 'Street view imagery data were used to calculate the MRT at each location around the Olympic Sports Center, enabling a refined estimation of heat exposure within the local travel environment.',
+    keywords: ['MRT', 'Urban Climate'],
+  },
+];
 ---
 
 <Layout title="Research - UMEP Lab">
-  <div class="max-w-6xl mx-auto">
-    <!-- Page Header -->
-    <section class="text-center mb-16">
-      <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Research Areas</h1>
-      <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-        Our research focuses on innovative solutions for urban challenges through interdisciplinary approaches 
-        combining environmental monitoring, renewable energy systems, and sustainable urban planning.
-      </p>
-    </section>
+    <div class="max-w-6xl mx-auto">
+        <!-- Page Header -->
+        <!--
+        <section class="text-center mb-12">
+            <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Publications</h1>
+            <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
+                Our publications include peer-reviewed journal articles, conference papers, and collaborative works.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{totalPubs}</div>
+                    <div class="text-sm text-gray-600">Total Publications</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{journalPubs}</div>
+                    <div class="text-sm text-gray-600">Journal Articles</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{conferencePubs}</div>
+                    <div class="text-sm text-gray-600">Conference Papers</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                    <div class="text-2xl font-bold text-primary">{recentPubs}</div>
+                    <div class="text-sm text-gray-600">Recent (2+ years)</div>
+                </div>
+            </div>
+        </section>
+            -->
 
-    <!-- Research Projects -->
-    <div class="space-y-16">
-      {sortedResearch.map((research, index) => (
-        <article class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div class={`md:flex ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
-            <div class="md:w-1/2 p-6 flex items-center justify-center bg-gray-50">
-              <img
-                src={research.data.image}
-                alt={research.data.title}
-                class="w-full h-64 md:h-full object-contain"
-              />
+        <!-- Filter Options -->
+        <section class="mb-8">
+            <div class="flex flex-wrap gap-4 justify-center">
+                <button class="filter-btn view-toggle-btn" data-view="pubs">
+                    Selected Publications
+                </button>
+                <button class="filter-btn active view-toggle-btn" data-view="projects">
+                    Current Projects
+                </button>
             </div>
-            <div class="md:w-1/2 p-8">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <Fragment set:html={getProjectIcon(research.data.title)} />
-                  </svg>
+        </section>
+
+        <!-- Publications by Year -->
+        <section id="pubs-view" class="hidden">
+            {years.map(year => (
+                <div class="year-section mb-12" data-year={year}>
+                    <div class="flex items-center mb-6">
+                        <h2 class="text-3xl font-serif font-semibold text-primary mr-4">{year}</h2>
+                        <div class="flex-1 h-px bg-gradient-to-r from-primary to-transparent"></div>
+                        <span class="text-sm text-gray-500 ml-4">
+                            {pubsByYear[year].length} publication{pubsByYear[year].length !== 1 ? 's' : ''}
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        {pubsByYear[year].map(pub => (
+                            <div class="publication-item" data-type={pub.data.type}>
+                                <PublicationItem
+                                    title={pub.data.title}
+                                    authors={pub.data.authors}
+                                    journal={pub.data.journal}
+                                    year={pub.data.year}
+                                    publishedDate={pub.data.publishedDate}
+                                    volume={pub.data.volume}
+                                    pages={pub.data.pages}
+                                    type={pub.data.type}
+                                    links={{
+                                        doi: pub.data.doi,
+                                        code: pub.data.code,
+                                    }}
+                                    abstract={pub.data.abstract}
+                                    keywords={pub.data.keywords}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <h2 class="text-2xl font-serif font-bold text-primary">{research.data.title}</h2>
-              </div>
-              <p class="text-gray-700 mb-6 leading-relaxed">
-                {research.data.description}
-              </p>
-              <div class="space-y-3">
-                <h3 class="font-semibold text-gray-800">Keywords:</h3>
-                <div class="flex flex-wrap gap-2">
-                  {research.data.keywords.map(keyword => (
-                    <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                      {keyword}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div class="mt-6 flex items-center justify-end">
-                <span class={`px-2 py-1 rounded-full text-xs font-medium ${
-                  research.data.status === 'active' 
-                    ? 'bg-green-100 text-green-800' 
-                    : research.data.status === 'completed'
-                    ? 'bg-blue-100 text-blue-800'
-                    : 'bg-yellow-100 text-yellow-800'
-                }`}>
-                  {research.data.status.charAt(0).toUpperCase() + research.data.status.slice(1)}
-                </span>
-              </div>
+            ))}
+        </section>
+
+        <!-- Current Projects View -->
+        <section id="projects-view">
+            <div class="mb-6">
+                <p class="text-gray-700 leading-relaxed">
+Our lab develops an AI agent framework that integrates Large Language Models (LLMs), Reinforcement Learning (RL), and Agent-Based Modeling (ABM) to study the complex interactions between human behavior, the built environment, and urban sustainability.
+                </p>
             </div>
-          </div>
-        </article>
-      ))}
+
+            <div class="grid gap-8 sm:grid-cols-2 items-stretch">
+                {staticProjects.map(project => (
+                    <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+                        {project.image && (
+                            <div class="aspect-video overflow-hidden">
+                                <img src={project.image} alt={project.title} class="w-full h-full object-cover" />
+                            </div>
+                        )}
+                        <div class="p-6 flex-1 flex flex-col">
+                            <h3 class="text-xl font-serif font-bold mb-2 text-gray-900">{project.title}</h3>
+                            <p class="text-gray-600 mb-4 flex-1">{project.description}</p>
+                            {project.keywords && (
+                                <div class="flex flex-wrap gap-2">
+                                    {project.keywords.slice(0, 5).map(kw => (
+                                        <span class="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full">{kw}</span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+
+        <!-- Empty State -->
+        <div id="no-results" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No publications found</h3>
+            <p class="text-gray-500">Try selecting a different filter or check back later.</p>
+        </div>
     </div>
-  </div>
 </Layout>
+
+<style>
+    .filter-btn {
+        @apply px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors font-medium;
+    }
+    
+    .filter-btn.active {
+        @apply bg-primary text-white border-primary hover:bg-blue-800;
+    }
+</style>
+
+<script>
+    // View toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('.view-toggle-btn');
+        const pubsView = document.getElementById('pubs-view');
+        const projectsView = document.getElementById('projects-view');
+
+        toggleButtons.forEach(btn => {
+            btn.addEventListener('click', function(this: HTMLButtonElement) {
+                const view = this.getAttribute('data-view');
+
+                // Update active state
+                toggleButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                if (view === 'projects') {
+                    pubsView?.classList.add('hidden');
+                    projectsView?.classList.remove('hidden');
+                    // Ensure canvas-based components recompute size after becoming visible
+                    setTimeout(() => {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 50);
+                } else {
+                    projectsView?.classList.add('hidden');
+                    pubsView?.classList.remove('hidden');
+                }
+            });
+        });
+    });
+</script>
