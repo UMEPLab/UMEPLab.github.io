@@ -4,5 +4,7 @@ date: 2025-08-25T00:00:00Z
 summary: "The lab won 3rd prize at the Urban Cup agent finals in Bali, following a 1st-place finish in Track 2 of the preliminaries with our mobility agent."
 
 category: "award"
-image: "urbancup2.jpg"
+image: "/urbancup2.webp"
+imageWidth: 1600
+imageHeight: 1216
 ---

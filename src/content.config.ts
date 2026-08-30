@@ -53,6 +53,11 @@ const newsCollection = defineCollection({
     summary: z.string(), // 简短摘要，用于快报显示
     category: z.enum(['publication', 'award', 'event', 'collaboration']).default('event'),
     image: z.string().optional(),
+    imageWidth: z.number().int().positive().optional(),
+    imageHeight: z.number().int().positive().optional(),
+    thumbnail: z.string().optional(),
+    thumbnailWidth: z.number().int().positive().optional(),
+    thumbnailHeight: z.number().int().positive().optional(),
     author: z.string().optional(),
   }),
 });

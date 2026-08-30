@@ -1,27 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-
-// 获取所有招聘信息
-const allOpenings = await getCollection('openings');
-
-// 按状态和截止日期排序
-const activeOpenings = allOpenings
-  .filter(opening => opening.data.status === 'active')
-  .sort((a, b) => new Date(a.data.deadline).getTime() - new Date(b.data.deadline).getTime());
-
-const closedOpenings = allOpenings
-  .filter(opening => opening.data.status === 'closed')
-  .sort((a, b) => new Date(b.data.deadline).getTime() - new Date(a.data.deadline).getTime());
-
-// 统计信息
-const totalOpenings = allOpenings.length;
-const activeCount = activeOpenings.length;
-const positions = [...new Set(allOpenings.map(opening => opening.data.position))];
 ---
 
-<Layout title="Openings - UMEP Lab">
-    <div class="max-w-4xl mx-auto">
+<Layout
+    title="Openings - UMEP Lab"
+    description="Explore PhD, research assistant, postdoctoral, and undergraduate research opportunities at UMEP Lab."
+>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Page Header -->
         <section class="text-center mb-12">
             <h1 class="text-4xl font-bold mb-4 text-primary">Join Us!</h1>
@@ -32,7 +17,7 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
 
         <!-- Position Overview -->
         <section class="mb-12">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 sm:p-8">
                 <h2 class="text-2xl font-semibold text-primary mb-6">Position Overview</h2>
                 <div class="space-y-6 text-gray-700">
                     <ul class="space-y-4">
@@ -65,7 +50,7 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
                             <span class="inline-block w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
                             <div>
                                 <strong class="text-gray-900">Postdoc</strong>
-                                <p class="mt-1"><strong>Positions will open in 2026.</strong> Very competitive salary and research fund package. Welcome to drop your resume and research proposal.</p>
+                                <p class="mt-1">Postdoctoral opportunities may be available. Please contact us with your CV and research proposal to confirm current availability.</p>
                             </div>
                         </li>
 
@@ -83,7 +68,7 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
 
         <!-- Requirements -->
         <section class="mb-12">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 sm:p-8">
                 <h2 class="text-2xl font-semibold text-primary mb-6">Application Requirements</h2>
                 
                 <!-- Academic Background -->
@@ -159,7 +144,7 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
 
         <!-- Application Instructions -->
         <section class="mb-12">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 sm:p-8">
                 <h2 class="text-2xl font-semibold text-primary mb-6">Application Instructions</h2>
                 <div class="space-y-6 text-gray-700">
                     <ul class="space-y-4">
@@ -179,7 +164,9 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
                             <span class="inline-block w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                             <div>
                                 <strong class="text-gray-900">Email Format:</strong>
-                                <p class="mt-1">Please indicate in the email subject line: <code class="bg-gray-200 px-2 py-1 rounded text-sm font-bold">PhD/RA/Postdoc+Name+Major+University</code>(eg:PhD-ZhangSan-UrbanScience-HKUST(gz))</p>
+                                <p class="mt-1">Please indicate the following format in the email subject line:</p>
+                                <code class="mt-2 block max-w-full break-all rounded bg-gray-200 px-2 py-1 text-sm font-bold sm:break-normal">PhD/RA/Postdoc+Name+Major+University</code>
+                                <p class="mt-2 text-sm text-gray-600">Example: PhD-ZhangSan-UrbanScience-HKUST(GZ)</p>
                             </div>
                         </li>
                         
@@ -217,7 +204,7 @@ const positions = [...new Set(allOpenings.map(opening => opening.data.position))
 
         <!-- Mentor's Message -->
         <section>
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 sm:p-8 text-center">
                 <div class="text-primary text-4xl mb-4">✨</div>
                 <h2 class="text-xl font-semibold text-gray-900 mb-4">Mentor's Message</h2>
                 <p class="text-lg text-gray-700 italic font-semibold">"Seek Truth through Illusion; Find Joy in Research."</p>

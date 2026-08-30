@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -24,6 +22,11 @@
   
   code, pre {
     @apply font-mono;
+  }
+
+  :focus-visible {
+    outline: 3px solid #2563eb;
+    outline-offset: 3px;
   }
 }
 
@@ -67,6 +70,34 @@
   .body-text {
     @apply font-sans text-base lg:text-lg leading-relaxed;
   }
+
+  .prose {
+    @apply text-gray-700 leading-relaxed;
+  }
+
+  .prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .prose h2 {
+    @apply mt-8 text-2xl font-bold text-gray-900;
+  }
+
+  .prose h3 {
+    @apply mt-6 text-xl font-bold text-gray-900;
+  }
+
+  .prose ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+
+  .prose ol {
+    @apply list-decimal space-y-2 pl-6;
+  }
+
+  .prose a {
+    @apply font-medium text-primary underline underline-offset-2;
+  }
 }
 
 @layer utilities {
@@ -101,6 +132,24 @@
   animation: fadeIn 0.8s ease-out;
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #1e40af;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 /* 鼠标悬停效果 */
 .interactive-element {
   @apply transition-all duration-300 cursor-pointer;
@@ -108,4 +157,19 @@
 
 .interactive-element:hover {
   transform: translateY(-2px) scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

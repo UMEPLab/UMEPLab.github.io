@@ -4,24 +4,51 @@ import Header from '../components/Header.astro';
 
 interface Props {
 	title: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
 }
 
-const { title } = Astro.props;
+const {
+	title,
+	description = 'UMEP Lab advances urban mobility, environmental perception, spatial analytics, and sustainable urban development through AI-driven research.',
+	image = '/hero.webp',
+	type = 'website',
+} = Astro.props;
+
+const pageTitle = title.includes('UMEP Lab') ? title : `${title} | UMEP Lab`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
+const currentYear = new Date().getFullYear();
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="UMEP Lab - Urban Meteorology and Environmental Physics Laboratory" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="description" content={description} />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={canonicalURL} />
+		<link rel="icon" type="image/jpeg" href="/favicon.jpeg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{pageTitle}</title>
+
+		<meta property="og:type" content={type} />
+		<meta property="og:site_name" content="UMEP Lab" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={socialImageURL} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={socialImageURL} />
 		
-		<!-- 预加载字体 -->
+		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 		
 		<!-- Meta tags for better SEO -->
 		<meta name="theme-color" content="#2563eb" />
@@ -29,6 +56,8 @@ const { title } = Astro.props;
 		<meta name="apple-mobile-web-app-status-bar-style" content="default" />
 	</head>
 	<body class="font-sans text-dark-800 overflow-x-hidden">
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+
 		<!-- 页面加载动画背景 -->
 		<div class="fixed inset-0 bg-gradient-to-br from-primary-50 via-accent-50 to-primary-100 -z-10"></div>
 		
@@ -40,9 +69,22 @@ const { title } = Astro.props;
 		
 		<Header />
 		
-		<main class="relative z-10 page-enter pt-8 pb-16">
+		<main id="main-content" class="relative z-10 page-enter pt-8 pb-16">
 			<slot />
 		</main>
+
+		<footer class="relative z-10 border-t border-white/30 bg-white/60 backdrop-blur-md">
+			<div class="container-custom py-8 flex flex-col gap-3 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+				<div>
+					<p class="font-serif text-lg font-bold text-gray-900">UMEP Lab</p>
+					<p class="text-sm text-gray-600">Urban Mobility and Environmental Perception Laboratory</p>
+				</div>
+				<div class="text-sm text-gray-600 sm:text-right">
+					<a class="font-medium text-primary hover:underline" href="mailto:qiumengli@hkust-gz.edu.cn">Contact us</a>
+					<p>&copy; {currentYear} UMEP Lab</p>
+				</div>
+			</div>
+		</footer>
 		
 		<!-- 返回顶部按钮 -->
 		<button 

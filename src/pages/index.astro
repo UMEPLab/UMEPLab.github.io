@@ -14,7 +14,10 @@ const sortedNews = allNews.sort((a, b) =>
 const latestNews = sortedNews.slice(0, 6);
 ---
 
-<Layout title="UMEP Lab - Home">
+<Layout
+    title="UMEP Lab - Home"
+    description="UMEP Lab studies urban mobility, environmental perception, spatial analytics, and sustainable urban development through AI-driven modeling and human-centered design."
+>
     <!-- Main Content Container -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -22,39 +25,39 @@ const latestNews = sortedNews.slice(0, 6);
         <div class="bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-3xl py-12 lg:py-20 mb-12 lg:mb-16 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
             <!-- Hero Section with UMEP Lab Introduction -->
             <section class="mb-8">
-                <div class="flex flex-col xl:flex-row items-center xl:items-start gap-8 xl:gap-12">
+                <div class="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-10 xl:gap-12">
                     <!-- Left side: Lab Logo -->
-                    <div class="w-full max-w-md xl:w-96 xl:h-96 xl:flex-shrink-0">
-                        <img 
-                            src="banner.png" 
+                    <div class="w-full max-w-md mx-auto lg:mx-0 lg:w-80 xl:w-96 lg:flex-shrink-0">
+                        <img
+                            src="/banner.webp"
                             alt="UMEP Lab Logo" 
-                            class="w-full h-64 xl:h-full object-cover rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+                            width="1024"
+                            height="1024"
+                            fetchpriority="high"
+                            decoding="async"
+                            class="w-full aspect-square object-cover rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300"
                         />
                     </div>
                     
                     <!-- Right side: Lab Introduction -->
-                    <div class="flex-1 relative h-64 xl:h-96 rounded-2xl w-full" 
-                         style="background-image: url('/hero.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                    <div class="flex-1 relative min-h-[30rem] sm:min-h-[27rem] lg:min-h-[24rem] rounded-2xl w-full overflow-hidden"
+                         style="background-image: url('/hero.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
                         <!-- Background overlay -->
-                        <div class="absolute inset-0 bg-black/10 rounded-2xl"></div>
+                        <div class="absolute inset-0 bg-black/35"></div>
 
-                        <div class="relative z-10 h-full">
-                            <div class="relative h-64 xl:h-96 bg-black/10 rounded-xl overflow-hidden backdrop-blur-sm">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white px-4 xl:px-8">
-                                        <h1 class="text-3xl xl:text-5xl font-serif font-bold mb-4 xl:mb-6 drop-shadow-lg">UMEP Lab</h1>
-                                        <h2 class="text-lg xl:text-2xl mb-6 xl:mb-8 opacity-90 drop-shadow-md">Urban Mobility and Environmental Perception Laboratory</h2>
-                                        <p class="text-sm xl:text-lg opacity-85 max-w-lg xl:max-w-2xl mx-auto leading-relaxed drop-shadow-md mb-6 xl:mb-8">
-                                            Advancing our understanding of urban mobility, environmental perception, and sustainable urban and rural development through AI-driven modeling, spatial analysis, and human-centered design. The laboratory focuses on AI agents for human mobility, urban science, spatial analytics, built environment perception and cognition, and urban–rural landscape dynamics.
-                                        </p>
-                                        <a href="/research" class="inline-flex items-center px-6 xl:px-8 py-3 xl:py-4 bg-white/20 hover:bg-white/30 text-white rounded-lg hover:rounded-xl transition-all duration-300 font-semibold text-base xl:text-lg backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                                            Explore Our Research
-                                            <svg class="w-5 h-5 xl:w-6 xl:h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
+                        <div class="relative z-10 min-h-[30rem] sm:min-h-[27rem] lg:min-h-[24rem] flex items-center justify-center px-5 py-10 sm:px-8 lg:px-10">
+                            <div class="text-center text-white">
+                                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-serif font-bold mb-4 xl:mb-6 drop-shadow-lg">UMEP Lab</h1>
+                                <h2 class="text-lg sm:text-xl xl:text-2xl mb-5 xl:mb-8 opacity-95 drop-shadow-md">Urban Mobility and Environmental Perception Laboratory</h2>
+                                <p class="text-sm sm:text-base xl:text-lg opacity-95 max-w-lg xl:max-w-2xl mx-auto leading-relaxed drop-shadow-md mb-6 xl:mb-8">
+                                    Advancing our understanding of urban mobility, environmental perception, and sustainable urban and rural development through AI-driven modeling, spatial analysis, and human-centered design. The laboratory focuses on AI agents for human mobility, urban science, spatial analytics, built environment perception and cognition, and urban–rural landscape dynamics.
+                                </p>
+                                <a href="/research" class="inline-flex items-center px-6 xl:px-8 py-3 xl:py-4 bg-white/20 hover:bg-white/30 text-white rounded-lg hover:rounded-xl transition-all duration-300 font-semibold text-base xl:text-lg backdrop-blur-sm border border-white/30 hover:border-white/60 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                                    Explore Our Research
+                                    <svg class="w-5 h-5 xl:w-6 xl:h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -63,7 +66,7 @@ const latestNews = sortedNews.slice(0, 6);
         </div>
 
         <!-- Latest News & Updates -->
-        <section class="mb-12 lg:mb-16">
+        <section id="latest-news" class="mb-12 lg:mb-16 scroll-mt-28">
             <div class="text-center mb-8 lg:mb-12">
                 <h2 class="text-3xl lg:text-4xl font-serif font-bold text-primary mb-4 lg:mb-6">Latest News & Updates</h2>
 
@@ -71,41 +74,50 @@ const latestNews = sortedNews.slice(0, 6);
             
             <!-- News Quick View Grid -->
             <div class={`grid gap-8 ${latestNews.length === 1 ? 'max-w-md mx-auto' : latestNews.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-                {latestNews.map((news, index) => (
-                    <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 group">
-                        {news.data.image && (
-                            <div class="aspect-video overflow-hidden">
-                                <img 
-                                    src={news.data.image} 
-                                    alt={news.data.title}
-                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                            </div>
-                        )}
-                        
-                        <div class="p-6">
-                            <div class="flex items-center gap-3 mb-4">
-                                <span class="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                                    {news.data.category}
+                {latestNews.map((news) => (
+                    <article class="h-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
+                        <a href={`/news/${news.slug}/`} class="group flex h-full flex-col" aria-label={`Read ${news.data.title}`}>
+                            {(news.data.thumbnail || news.data.image) && (
+                                <div class="aspect-video overflow-hidden bg-gray-100">
+                                    <img
+                                        src={news.data.thumbnail ?? news.data.image}
+                                        alt={news.data.title}
+                                        width={news.data.thumbnailWidth ?? news.data.imageWidth}
+                                        height={news.data.thumbnailHeight ?? news.data.imageHeight}
+                                        loading="lazy"
+                                        decoding="async"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                </div>
+                            )}
+
+                            <div class="p-6 flex flex-1 flex-col">
+                                <div class="flex flex-wrap items-center gap-3 mb-4">
+                                    <span class="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+                                        {news.data.category}
+                                    </span>
+                                    <time datetime={news.data.date.toISOString()} class="text-sm text-gray-500">
+                                        {new Date(news.data.date).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric'
+                                        })}
+                                    </time>
+                                </div>
+
+                                <h3 class="text-xl font-serif font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">
+                                    {news.data.title}
+                                </h3>
+
+                                <p class="text-gray-700 mb-4 line-clamp-6">
+                                    {news.data.summary}
+                                </p>
+                                <span class="mt-auto inline-flex items-center text-sm font-semibold text-primary">
+                                    Read update
+                                    <span aria-hidden="true" class="ml-1">→</span>
                                 </span>
-                                <time class="text-sm text-gray-500">
-                                    {new Date(news.data.date).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'short',
-                                        day: 'numeric'
-                                    })}
-                                </time>
                             </div>
-                            
-                            <h3 class="text-xl font-serif font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">
-                                {news.data.title}
-                            </h3>
-                            
-                            <p class="text-gray-700 mb-3 line-clamp-6">
-                                {news.data.summary}
-                            </p>
-                            <!-- 首页仅展示内容，不显示“Read more”链接 -->
-                        </div>
+                        </a>
                     </article>
                 ))}
             </div>
@@ -122,7 +134,7 @@ const latestNews = sortedNews.slice(0, 6);
         <section class="mb-12 lg:mb-16">
             <div class="bg-gradient-to-br from-gray-50 via-white to-blue-50 rounded-2xl lg:rounded-3xl p-8 lg:p-16 text-center border border-gray-100 shadow-xl">
                 <h2 class="text-2xl lg:text-3xl xl:text-4xl font-serif font-bold text-primary mb-4 lg:mb-6"> Get to Know Us</h2>
-                <div class="flex flex-row gap-4 lg:gap-6 justify-center max-w-2xl mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4 lg:gap-6 justify-center max-w-2xl mx-auto">
                     <a 
                         href="/people" 
                         class="flex-1 inline-flex items-center justify-center px-6 lg:px-8 py-3 lg:py-4 border-2 border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all duration-300 font-semibold text-base lg:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"

@@ -12,11 +12,24 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const imagePath = entry.data.image
+  ? entry.data.image.startsWith('/') ? entry.data.image : `/${entry.data.image}`
+  : undefined;
 ---
 
-<Layout title={entry.data.title}>
-  <main class="container mx-auto px-4 py-8">
+<Layout
+  title={entry.data.title}
+  description={entry.data.summary}
+  image={imagePath}
+  type="article"
+>
+  <div class="container mx-auto px-4 py-8">
     <article class="max-w-4xl mx-auto">
+      <a href="/#latest-news" class="mb-6 inline-flex items-center text-sm font-semibold text-primary hover:underline">
+        <span aria-hidden="true" class="mr-2">←</span>
+        Back to latest news
+      </a>
+
       <header class="mb-8">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{entry.data.title}</h1>
         <div class="flex items-center text-gray-600 mb-4">
@@ -38,11 +51,14 @@ const { Content } = await entry.render();
         )}
       </header>
       
-      {entry.data.image && (
+      {imagePath && (
         <div class="mb-8">
           <img 
-            src={`/${entry.data.image}`} 
+            src={imagePath}
             alt={entry.data.title}
+            width={entry.data.imageWidth}
+            height={entry.data.imageHeight}
+            decoding="async"
             class="w-full h-auto rounded-lg shadow-lg"
           />
         </div>
@@ -52,5 +68,5 @@ const { Content } = await entry.render();
         <Content />
       </div>
     </article>
-  </main>
+  </div>
 </Layout>

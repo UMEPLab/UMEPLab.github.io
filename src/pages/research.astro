@@ -3,12 +3,17 @@ import Layout from '../layouts/Layout.astro';
 import PublicationItem from '../components/PublicationItem.astro';
 import { getCollection } from 'astro:content';
 
-// 获取所有出版物
+// 获取所有出版物；新增条目不会替换或隐藏现有内容。
 const allPublications = await getCollection('publications');
 
 // 按发布日期和年份对出版物进行排序
 const sortedPublications = allPublications.sort((a, b) => {
-  // 如果有具体发布日期，优先按发布日期排序
+  // Always keep newer publication years first.
+  if (a.data.year !== b.data.year) {
+    return b.data.year - a.data.year;
+  }
+
+  // Within the same year, use exact publication dates when available.
   if (a.data.publishedDate && b.data.publishedDate) {
     return new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime();
   }
@@ -16,11 +21,6 @@ const sortedPublications = allPublications.sort((a, b) => {
   // 如果只有一个有发布日期，有日期的排在前面
   if (a.data.publishedDate && !b.data.publishedDate) return -1;
   if (!a.data.publishedDate && b.data.publishedDate) return 1;
-  
-  // 都没有发布日期则按年份降序排序
-  if (a.data.year !== b.data.year) {
-    return b.data.year - a.data.year;
-  }
   
   // 同年按标题字母顺序排序
   return a.data.title.localeCompare(b.data.title);
@@ -38,74 +38,54 @@ const pubsByYear = sortedPublications.reduce((acc, pub) => {
 
 const years = Object.keys(pubsByYear).map(Number).sort((a, b) => b - a);
 
-// 统计信息
-const totalPubs = allPublications.length;
-const journalPubs = allPublications.filter(pub => pub.data.type === 'journal').length;
-const conferencePubs = allPublications.filter(pub => pub.data.type === 'conference').length;
-const recentPubs = allPublications.filter(pub => pub.data.year >= new Date().getFullYear() - 2).length;
-
 // Current Projects 使用两张静态卡片（基于用户提供图片）
 const staticProjects = [
   {
     title: 'AI Agent for Human Mobility Generation',
-    image: '/LLMABMframework.jpg',
+    image: '/LLMABMframework.webp',
+    imageWidth: 1800,
+    imageHeight: 1130,
     description: 'AI agents simulate daily travel routines, using LLMs to plan activities, reflect on behavior, and choose destinations and travel modes based on memory and context.',
     keywords: ['LLM', 'ABM']
   },
   {
     title: 'Environmental exposure and perception',
-    image: '/baolu.png',
+    image: '/baolu.webp',
+    imageWidth: 1600,
+    imageHeight: 900,
     description: 'Street view imagery data were used to calculate the MRT at each location around the Olympic Sports Center, enabling a refined estimation of heat exposure within the local travel environment.',
     keywords: ['MRT', 'Urban Climate'],
   },
 ];
 ---
 
-<Layout title="Research - UMEP Lab">
-    <div class="max-w-6xl mx-auto">
+<Layout
+    title="Research - UMEP Lab"
+    description="Explore UMEP Lab projects and selected publications on AI agents, human mobility, environmental perception, urban climate, and spatial analytics."
+>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Page Header -->
-        <!--
         <section class="text-center mb-12">
-            <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Publications</h1>
+            <h1 class="text-4xl font-serif font-bold mb-4 text-primary">Research & Publications</h1>
             <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
-                Our publications include peer-reviewed journal articles, conference papers, and collaborative works.
+                We combine AI agents, spatial analytics, and human-centered methods to understand mobility, perception, and sustainable urban environments.
             </p>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                    <div class="text-2xl font-bold text-primary">{totalPubs}</div>
-                    <div class="text-sm text-gray-600">Total Publications</div>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                    <div class="text-2xl font-bold text-primary">{journalPubs}</div>
-                    <div class="text-sm text-gray-600">Journal Articles</div>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                    <div class="text-2xl font-bold text-primary">{conferencePubs}</div>
-                    <div class="text-sm text-gray-600">Conference Papers</div>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                    <div class="text-2xl font-bold text-primary">{recentPubs}</div>
-                    <div class="text-sm text-gray-600">Recent (2+ years)</div>
-                </div>
-            </div>
         </section>
-            -->
 
         <!-- Filter Options -->
         <section class="mb-8">
-            <div class="flex flex-wrap gap-4 justify-center">
-                <button class="filter-btn active view-toggle-btn" data-view="projects">
+            <div class="flex flex-wrap gap-4 justify-center" role="tablist" aria-label="Research views">
+                <button id="projects-tab" type="button" role="tab" aria-selected="true" aria-controls="projects-view" class="filter-btn active view-toggle-btn" data-view="projects">
                     Current Projects
                 </button>
-                <button class="filter-btn view-toggle-btn" data-view="pubs">
+                <button id="pubs-tab" type="button" role="tab" aria-selected="false" aria-controls="pubs-view" class="filter-btn view-toggle-btn" data-view="pubs">
                     Selected Publications
                 </button>
             </div>
         </section>
 
         <!-- Publications by Year -->
-        <section id="pubs-view" class="hidden">
+        <section id="pubs-view" role="tabpanel" aria-labelledby="pubs-tab" class="hidden">
             {years.map(year => (
                 <div class="year-section mb-12" data-year={year}>
                     <div class="flex items-center mb-6">
@@ -131,6 +111,7 @@ const staticProjects = [
                                     links={{
                                         doi: pub.data.doi,
                                         code: pub.data.code,
+                                        projectPage: pub.data.projectPage,
                                     }}
                                     abstract={pub.data.abstract}
                                     keywords={pub.data.keywords}
@@ -143,7 +124,7 @@ const staticProjects = [
         </section>
 
         <!-- Current Projects View -->
-        <section id="projects-view">
+        <section id="projects-view" role="tabpanel" aria-labelledby="projects-tab">
             <div class="mb-6">
                 <p class="text-gray-700 leading-relaxed">
 Our lab develops an AI agent framework that integrates Large Language Models (LLMs), Reinforcement Learning (RL), and Agent-Based Modeling (ABM) to study the complex interactions between human behavior, the built environment, and urban sustainability.
@@ -155,7 +136,15 @@ Our lab develops an AI agent framework that integrates Large Language Models (LL
                     <article class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col">
                         {project.image && (
                             <div class="aspect-video overflow-hidden">
-                                <img src={project.image} alt={project.title} class="w-full h-full object-cover" />
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    width={project.imageWidth}
+                                    height={project.imageHeight}
+                                    loading="lazy"
+                                    decoding="async"
+                                    class="w-full h-full object-cover"
+                                />
                             </div>
                         )}
                         <div class="p-6 flex-1 flex flex-col">
@@ -211,6 +200,7 @@ Our lab develops an AI agent framework that integrates Large Language Models (LL
                 // Update active state
                 toggleButtons.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+                toggleButtons.forEach(b => b.setAttribute('aria-selected', String(b === this)));
 
                 if (view === 'projects') {
                     pubsView?.classList.add('hidden');

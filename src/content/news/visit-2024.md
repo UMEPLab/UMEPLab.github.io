@@ -3,7 +3,9 @@ title: "Guangzhou Urban Planning & Design Survey Research Institute Visits UMEP 
 date: 2024-11-01T00:00:00Z
 summary: "Discussions covered transport equity, travel resilience, and micromobility’s link to the built environment, while exploring future collaboration."
 category: "event"
-image: "visit.png"
+image: "/visit.webp"
+imageWidth: 887
+imageHeight: 486
 ---
 
 Representatives from the Guangzhou Urban Planning & Design Survey Research Institute visited the UMEP Lab for a technical exchange. The discussion covered transport equity, travel resilience, and how micromobility interacts with the built environment.
