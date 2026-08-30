@@ -72,53 +72,113 @@ const latestNews = sortedNews.slice(0, 6);
 
             </div>
             
-            <!-- News Quick View Grid -->
-            <div class={`grid gap-8 ${latestNews.length === 1 ? 'max-w-md mx-auto' : latestNews.length === 2 ? 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
-                {latestNews.map((news) => (
-                    <article class="h-full bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300">
-                        <a href={`/news/${news.slug}/`} class="group flex h-full flex-col" aria-label={`Read ${news.data.title}`}>
-                            {(news.data.thumbnail || news.data.image) && (
-                                <div class="aspect-video overflow-hidden bg-gray-100">
-                                    <img
-                                        src={news.data.thumbnail ?? news.data.image}
-                                        alt={news.data.title}
-                                        width={news.data.thumbnailWidth ?? news.data.imageWidth}
-                                        height={news.data.thumbnailHeight ?? news.data.imageHeight}
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                    />
-                                </div>
-                            )}
+            <div class="mb-4 flex justify-end gap-2" aria-label="Latest news carousel controls">
+                <button
+                    id="news-prev"
+                    type="button"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-primary shadow-sm transition-colors hover:border-primary hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-30"
+                    aria-label="Scroll latest news left"
+                    aria-controls="news-scroller"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button
+                    id="news-autoplay"
+                    type="button"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-primary shadow-sm transition-colors hover:border-primary hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-30"
+                    aria-label="Pause automatic news scrolling"
+                    aria-controls="news-scroller"
+                >
+                    <svg id="news-pause-icon" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6"></path>
+                    </svg>
+                    <svg id="news-play-icon" class="hidden h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7l8 5-8 5V7z"></path>
+                    </svg>
+                </button>
+                <button
+                    id="news-next"
+                    type="button"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 bg-white text-primary shadow-sm transition-colors hover:border-primary hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-30"
+                    aria-label="Scroll latest news right"
+                    aria-controls="news-scroller"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
 
-                            <div class="p-6 flex flex-1 flex-col">
-                                <div class="flex flex-wrap items-center gap-3 mb-4">
-                                    <span class="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
-                                        {news.data.category}
-                                    </span>
-                                    <time datetime={news.data.date.toISOString()} class="text-sm text-gray-500">
-                                        {new Date(news.data.date).toLocaleDateString('en-US', {
-                                            year: 'numeric',
-                                            month: 'short',
-                                            day: 'numeric'
-                                        })}
-                                    </time>
-                                </div>
+            <!-- Two identical groups create a seamless, single-row infinite loop -->
+            <div
+                id="news-scroller"
+                class="news-scroller flex flex-nowrap overflow-x-auto pb-5"
+                role="region"
+                aria-roledescription="carousel"
+                aria-label="Latest news updates"
+                tabindex="0"
+            >
+                {[false, true].map((duplicate) => (
+                    <div
+                        class="news-loop-group flex flex-none items-stretch gap-6 pr-6"
+                        role={duplicate ? undefined : 'list'}
+                        aria-label={duplicate ? undefined : 'Latest news updates'}
+                        aria-hidden={duplicate ? 'true' : undefined}
+                    >
+                        {latestNews.map((news) => (
+                            <article role={duplicate ? undefined : 'listitem'} class="w-[86vw] max-w-sm flex-none bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 sm:w-[22rem] lg:w-[23rem] xl:w-96">
+                                <a
+                                    href={`/news/${news.slug}/`}
+                                    class="group flex h-full flex-col"
+                                    aria-label={`Read ${news.data.title}`}
+                                    tabindex={duplicate ? -1 : undefined}
+                                >
+                                    {(news.data.thumbnail || news.data.image) && (
+                                        <div class="aspect-video overflow-hidden bg-gray-100">
+                                            <img
+                                                src={news.data.thumbnail ?? news.data.image}
+                                                alt={news.data.title}
+                                                width={news.data.thumbnailWidth ?? news.data.imageWidth}
+                                                height={news.data.thumbnailHeight ?? news.data.imageHeight}
+                                                loading="lazy"
+                                                decoding="async"
+                                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                            />
+                                        </div>
+                                    )}
 
-                                <h3 class="text-xl font-serif font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">
-                                    {news.data.title}
-                                </h3>
+                                    <div class="p-6 flex flex-1 flex-col">
+                                        <div class="flex flex-wrap items-center gap-3 mb-4">
+                                            <span class="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
+                                                {news.data.category}
+                                            </span>
+                                            <time datetime={news.data.date.toISOString()} class="text-sm text-gray-500">
+                                                {new Date(news.data.date).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                            </time>
+                                        </div>
 
-                                <p class="text-gray-700 mb-4 line-clamp-6">
-                                    {news.data.summary}
-                                </p>
-                                <span class="mt-auto inline-flex items-center text-sm font-semibold text-primary">
-                                    Read update
-                                    <span aria-hidden="true" class="ml-1">→</span>
-                                </span>
-                            </div>
-                        </a>
-                    </article>
+                                        <h3 class="text-xl font-serif font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors">
+                                            {news.data.title}
+                                        </h3>
+
+                                        <p class="text-gray-700 mb-4 line-clamp-6">
+                                            {news.data.summary}
+                                        </p>
+                                        <span class="mt-auto inline-flex items-center text-sm font-semibold text-primary">
+                                            Read update
+                                            <span aria-hidden="true" class="ml-1">→</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </article>
+                        ))}
+                    </div>
                 ))}
             </div>
             
@@ -181,6 +241,16 @@ const latestNews = sortedNews.slice(0, 6);
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
+    .news-scroller {
+        scrollbar-width: none;
+        overscroll-behavior-inline: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .news-scroller::-webkit-scrollbar {
+        display: none;
+    }
     
     /* Enhanced shadow utilities */
     .shadow-3xl {
@@ -238,8 +308,142 @@ const latestNews = sortedNews.slice(0, 6);
 </style>
 
 <script>
-    // Simple page interactions
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('UMEP Lab homepage loaded');
+        const newsScroller = document.getElementById('news-scroller');
+        const previousButton = document.getElementById('news-prev') as HTMLButtonElement | null;
+        const nextButton = document.getElementById('news-next') as HTMLButtonElement | null;
+        const autoplayButton = document.getElementById('news-autoplay') as HTMLButtonElement | null;
+        const pauseIcon = document.getElementById('news-pause-icon');
+        const playIcon = document.getElementById('news-play-icon');
+
+        if (!newsScroller || !previousButton || !nextButton || !autoplayButton || !pauseIcon || !playIcon) return;
+
+        const firstLoopGroup = newsScroller.querySelector<HTMLElement>('.news-loop-group');
+        if (!firstLoopGroup) return;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const scrollSpeed = 32;
+        let manuallyPaused = reducedMotion.matches;
+        let pointerInside = false;
+        let focusInside = false;
+        let touchInteracting = false;
+        let touchResumeTimer: number | undefined;
+        let lastFrameTime = 0;
+
+        const getLoopWidth = () => firstLoopGroup.getBoundingClientRect().width;
+
+        const getScrollStep = () => {
+            const firstCard = firstLoopGroup.querySelector<HTMLElement>('article');
+            if (!firstCard) return Math.min(newsScroller.clientWidth * 0.9, 420);
+
+            const groupStyles = window.getComputedStyle(firstLoopGroup);
+            const gap = Number.parseFloat(groupStyles.columnGap || groupStyles.gap || '0') || 0;
+            return firstCard.getBoundingClientRect().width + gap;
+        };
+
+        const updateControls = () => {
+            const hasOverflow = newsScroller.scrollWidth - newsScroller.clientWidth > 2;
+            previousButton.disabled = !hasOverflow;
+            nextButton.disabled = !hasOverflow;
+            autoplayButton.disabled = !hasOverflow;
+        };
+
+        const normalizeLoopPosition = () => {
+            const loopWidth = getLoopWidth();
+            if (loopWidth <= 0) return;
+
+            while (newsScroller.scrollLeft >= loopWidth) {
+                newsScroller.scrollLeft -= loopWidth;
+            }
+        };
+
+        const scrollNews = (direction: -1 | 1) => {
+            const loopWidth = getLoopWidth();
+            if (loopWidth <= 0) return;
+
+            const step = getScrollStep();
+            if (direction === -1 && newsScroller.scrollLeft < step) {
+                newsScroller.scrollLeft += loopWidth;
+            }
+
+            newsScroller.scrollBy({ left: direction * step, behavior: 'smooth' });
+            window.setTimeout(normalizeLoopPosition, 500);
+        };
+
+        const canAnimate = () => (
+            !manuallyPaused &&
+            !pointerInside &&
+            !focusInside &&
+            !touchInteracting &&
+            !document.hidden &&
+            newsScroller.scrollWidth - newsScroller.clientWidth > 2
+        );
+
+        const animate = (timestamp: number) => {
+            if (!lastFrameTime) lastFrameTime = timestamp;
+            const elapsed = Math.min(timestamp - lastFrameTime, 64);
+            lastFrameTime = timestamp;
+
+            if (canAnimate()) {
+                newsScroller.scrollLeft += (scrollSpeed * elapsed) / 1000;
+                normalizeLoopPosition();
+            }
+
+            window.requestAnimationFrame(animate);
+        };
+
+        const updateAutoplayControl = () => {
+            pauseIcon.classList.toggle('hidden', manuallyPaused);
+            playIcon.classList.toggle('hidden', !manuallyPaused);
+            autoplayButton.setAttribute(
+                'aria-label',
+                manuallyPaused ? 'Start automatic news scrolling' : 'Pause automatic news scrolling'
+            );
+        };
+
+        previousButton.addEventListener('click', () => scrollNews(-1));
+        nextButton.addEventListener('click', () => scrollNews(1));
+        autoplayButton.addEventListener('click', () => {
+            manuallyPaused = !manuallyPaused;
+            updateAutoplayControl();
+        });
+        newsScroller.addEventListener('mouseenter', () => {
+            pointerInside = true;
+        });
+        newsScroller.addEventListener('mouseleave', () => {
+            pointerInside = false;
+        });
+        newsScroller.addEventListener('focusin', () => {
+            focusInside = true;
+        });
+        newsScroller.addEventListener('focusout', (event) => {
+            if (!newsScroller.contains(event.relatedTarget as Node | null)) {
+                focusInside = false;
+            }
+        });
+        newsScroller.addEventListener('pointerdown', (event) => {
+            if (event.pointerType === 'mouse') return;
+            touchInteracting = true;
+            if (touchResumeTimer !== undefined) window.clearTimeout(touchResumeTimer);
+        });
+        const resumeAfterTouch = () => {
+            if (touchResumeTimer !== undefined) window.clearTimeout(touchResumeTimer);
+            touchResumeTimer = window.setTimeout(() => {
+                touchInteracting = false;
+            }, 1200);
+        };
+        newsScroller.addEventListener('pointerup', resumeAfterTouch);
+        newsScroller.addEventListener('pointercancel', resumeAfterTouch);
+        reducedMotion.addEventListener('change', (event) => {
+            manuallyPaused = event.matches;
+            updateAutoplayControl();
+        });
+        window.addEventListener('resize', () => {
+            updateControls();
+            normalizeLoopPosition();
+        });
+        updateControls();
+        updateAutoplayControl();
+        window.requestAnimationFrame(animate);
     });
 </script>
