@@ -49,10 +49,12 @@ const supervisionPanels = [
     { id: "graduated-rpgs", tabId: "graduated-rpgs-tab", label: "Graduated RPGs", students: graduatedRPGs }
 ].map((panel) => ({
     ...panel,
-    groups: degreeGroups.map((degree) => ({
-        ...degree,
-        students: panel.students.filter((student) => student.degree === degree.key)
-    }))
+    groups: degreeGroups
+        .map((degree) => ({
+            ...degree,
+            students: panel.students.filter((student) => student.degree === degree.key)
+        }))
+        .filter((group) => group.students.length > 0)
 }));
 
 const initials = (name: string) => name.split(' ').map((part) => part[0]).join('');
