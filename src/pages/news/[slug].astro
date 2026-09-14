@@ -64,9 +64,54 @@ const imagePath = entry.data.image
         </div>
       )}
       
-      <div class="prose prose-lg max-w-none">
+      <div class="prose prose-lg max-w-none news-content">
         <Content />
       </div>
     </article>
   </div>
 </Layout>
+
+<style>
+  .news-content :global(.news-gallery) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 2rem 0 0;
+  }
+
+  .news-content :global(.news-gallery figure) {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid rgb(226 232 240);
+    border-radius: 0.75rem;
+    background: white;
+    box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
+  }
+
+  .news-content :global(.news-gallery--single) {
+    grid-template-columns: minmax(0, 42rem);
+    justify-content: center;
+  }
+
+  .news-content :global(.news-gallery img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    margin: 0;
+    border-radius: 0;
+    object-fit: cover;
+  }
+
+  .news-content :global(.news-gallery figcaption) {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    color: rgb(71 85 105);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 640px) {
+    .news-content :global(.news-gallery) {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
