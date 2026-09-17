@@ -9,6 +9,10 @@ interface RPGStudent {
     completionYear?: string;
 }
 
+interface ResearchAssistant {
+    name: string;
+}
+
 const director = {
     name: "Dr. Qiumeng Li",
     title: "Lab Director & Assistant Professor",
@@ -39,6 +43,12 @@ const graduatedRPGs: RPGStudent[] = [
     }
 ];
 
+const researchAssistants: ResearchAssistant[] = [
+    { name: "Shanbo Qi" },
+    { name: "Qingyuan Xu" },
+    { name: "Jinru Pan" }
+];
+
 const degreeGroups = [
     { key: "PHD", label: "Doctor of Philosophy", shortLabel: "PhD" },
     { key: "MPHIL", label: "Master of Philosophy", shortLabel: "MPhil" }
@@ -62,14 +72,14 @@ const initials = (name: string) => name.split(' ').map((part) => part[0]).join('
 
 <Layout
     title="People"
-    description="Meet the UMEP Lab director and the current and graduated research postgraduates supervised across urban governance, intelligent transportation, and autonomous systems."
+    description="Meet the UMEP Lab director, research assistants, and current and graduated research postgraduates working across urban governance, intelligent transportation, and autonomous systems."
 >
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <header class="mx-auto mb-12 max-w-3xl text-center">
             <p class="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-primary-600">People</p>
             <h1 class="text-4xl font-serif font-bold text-gray-950 sm:text-5xl">Our Team</h1>
             <p class="mt-4 text-base leading-relaxed text-gray-600 sm:text-lg">
-                Lab leadership and research postgraduate supervision across our interdisciplinary programmes.
+                Lab leadership, research assistants, and research postgraduate supervision across our interdisciplinary programmes.
             </p>
         </header>
 
@@ -198,6 +208,36 @@ const initials = (name: string) => name.split(' ').map((part) => part[0]).join('
                             </section>
                         ))}
                     </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="mt-14" aria-labelledby="research-assistants-heading">
+            <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
+                <div>
+                    <p class="mb-2 text-sm font-semibold uppercase tracking-[0.16em] text-primary-600">Research Team</p>
+                    <h2 id="research-assistants-heading" class="text-3xl font-serif font-bold text-gray-950 sm:text-4xl">
+                        Research Assistants
+                    </h2>
+                </div>
+                <span class="rounded-full bg-primary-50 px-3 py-1 text-sm font-semibold text-primary-700">
+                    {researchAssistants.length} research assistants
+                </span>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {researchAssistants.map((assistant) => (
+                    <article class="group rounded-xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-900/5">
+                        <div class="flex items-center gap-4">
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-100 to-accent-100 text-sm font-bold text-primary-700 ring-4 ring-primary-50">
+                                {initials(assistant.name)}
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-lg font-bold text-gray-950">{assistant.name}</h3>
+                                <p class="mt-1 text-sm text-gray-600">Research Assistant</p>
+                            </div>
+                        </div>
+                    </article>
                 ))}
             </div>
         </section>
