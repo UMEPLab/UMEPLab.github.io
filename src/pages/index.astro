@@ -22,53 +22,52 @@ const latestNews = sortedNews;
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Hero Section -->
-        <div class="bg-gradient-to-br from-slate-50 via-white to-blue-50 rounded-3xl py-12 lg:py-20 mb-12 lg:mb-16 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
-            <!-- Hero Section with UMEP Lab Introduction -->
-            <section class="mb-8">
-                <div class="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-10 xl:gap-12">
-                    <!-- Left side: Lab Logo -->
-                    <div class="w-full max-w-md mx-auto lg:mx-0 lg:w-80 xl:w-96 lg:flex-shrink-0">
+        <section class="relative mb-12 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-primary-950 to-primary-700 shadow-2xl shadow-blue-950/20 lg:mb-16">
+            <div class="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/15 blur-3xl"></div>
+            <div class="pointer-events-none absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-blue-300/15 blur-3xl"></div>
+
+            <div class="relative grid items-center gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:px-14 lg:py-14 xl:grid-cols-[minmax(0,1fr)_23rem] xl:gap-14 xl:px-16">
+                <div class="text-left text-white">
+                    <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">UMEP Lab</p>
+                    <h1 class="max-w-4xl text-3xl font-serif font-bold leading-tight sm:text-4xl xl:text-5xl">
+                        Urban Mobility and Environmental Perception Laboratory
+                    </h1>
+
+                    <div class="mt-6 max-w-4xl space-y-4 text-sm leading-relaxed text-slate-100 sm:text-base xl:text-lg">
+                        <p>
+                            Our lab builds on AI-driven modeling technologies, spatial big-data analysis, and human-centered agent design, with a strong focus on urban mobility, environmental perception, and spatial cognition. Through these efforts, we aim to continuously advance sustainable urban and rural development, smart transportation governance, and mobility equity.
+                        </p>
+                        <p>
+                            Our lab’s research focuses on interdisciplinary areas including human mobility, urban science, cognitive maps, built environment perception, AI agents for urban mobility, and serious games. Our agent frameworks integrate LLM agents, reinforcement learning, and rule-based multi-agent simulation to explore the complex interactions among human behavior, the built environment, and environmental sustainability.
+                        </p>
+                    </div>
+
+                    <a href="/research" class="mt-7 inline-flex items-center rounded-xl border border-white/30 bg-white/15 px-6 py-3 text-base font-semibold text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-white/60 hover:bg-white/25 hover:shadow-xl xl:px-8 xl:py-4 xl:text-lg">
+                        Explore Our Research
+                        <svg class="ml-2 h-5 w-5 xl:h-6 xl:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="mx-auto w-full max-w-[17rem] sm:max-w-xs lg:max-w-none">
+                    <div class="rounded-3xl border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur-sm sm:p-4">
                         <img
                             src="/banner.webp"
-                            alt="UMEP Lab Logo" 
+                            alt="UMEP Lab research themes"
                             width="1024"
                             height="1024"
                             fetchpriority="high"
                             decoding="async"
-                            class="w-full aspect-square object-cover rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+                            class="aspect-square w-full rounded-2xl object-cover"
                         />
                     </div>
-                    
-                    <!-- Right side: Lab Introduction -->
-                    <div class="flex-1 relative min-h-[30rem] sm:min-h-[27rem] lg:min-h-[24rem] rounded-2xl w-full overflow-hidden"
-                         style="background-image: url('/hero.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-                        <!-- Background overlay -->
-                        <div class="absolute inset-0 bg-black/35"></div>
-
-                        <div class="relative z-10 min-h-[30rem] sm:min-h-[27rem] lg:min-h-[24rem] flex items-center justify-center px-5 py-10 sm:px-8 lg:px-10">
-                            <div class="text-center text-white">
-                                <h1 class="text-3xl sm:text-4xl xl:text-5xl font-serif font-bold mb-4 xl:mb-6 drop-shadow-lg">UMEP Lab</h1>
-                                <h2 class="text-lg sm:text-xl xl:text-2xl mb-5 xl:mb-8 opacity-95 drop-shadow-md">Urban Mobility and Environmental Perception Laboratory</h2>
-                                <div class="mx-auto mb-6 max-w-lg space-y-4 text-sm leading-relaxed opacity-95 drop-shadow-md sm:text-base xl:mb-8 xl:max-w-2xl xl:text-lg">
-                                    <p>
-                                        Our lab builds on AI-driven modeling technologies, spatial big-data analysis, and human-centered agent design, with a strong focus on urban mobility, environmental perception, and spatial cognition. Through these efforts, we aim to continuously advance sustainable urban and rural development, smart transportation governance, and mobility equity.
-                                    </p>
-                                    <p>
-                                        Our lab’s research focuses on interdisciplinary areas including human mobility, urban science, cognitive maps, built environment perception, AI agents for urban mobility, and serious games. Our agent frameworks integrate LLM agents, reinforcement learning, and rule-based multi-agent simulation to explore the complex interactions among human behavior, the built environment, and environmental sustainability.
-                                    </p>
-                                </div>
-                                <a href="/research" class="inline-flex items-center px-6 xl:px-8 py-3 xl:py-4 bg-white/20 hover:bg-white/30 text-white rounded-lg hover:rounded-xl transition-all duration-300 font-semibold text-base xl:text-lg backdrop-blur-sm border border-white/30 hover:border-white/60 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                                    Explore Our Research
-                                    <svg class="w-5 h-5 xl:w-6 xl:h-6 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="mt-4 text-center text-xs font-medium uppercase tracking-[0.18em] text-cyan-100/80">
+                        Mobility · Cognition · Environment
+                    </p>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
         <!-- Latest News & Updates -->
         <section id="latest-news" class="mb-12 lg:mb-16 scroll-mt-28">
